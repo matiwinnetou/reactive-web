@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>Reactive Web with play framework</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="Reactive Web with play framework">
+		<meta name="author" content="Mateusz Szczap">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -38,31 +38,154 @@
 
 	<body>
 
+    <div id="myLogo" style="background: url('ebay_logo.svg');
+                        position: absolute;
+                        bottom: 100px;
+                        right: 10px;
+                        width: 300px;
+                        height: 120px;"></div>
 		<div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>HTML Presentations Made Easy</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
+					<h1>Reactive Web</h1>
+					<h3>with Play framework and Facebook's BigPipe</h3>
+    					<p>
+						<small>Mateusz Szczap / <a href="http://twitter.com/matiwinnetou">@matiwinnetou</a></small>
+                        </p>
+                        <p>
+                        <small>eBay Inc.</small>
+                        </p>
 				</section>
 
 				<section>
-					<h2>Heads Up</h2>
-					<p>
-						reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with
-						support for CSS 3D transforms to see it in its full glory.
-					</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
+					<h2>Speaker</h2>
+                    <ul>
+                        <li>a backend developer</li>
+                        <li>over 10 years of experience</li>
+                        <li>worked over 2,5 years for mobile.de (eBay Inc company)</li>
+                        <li>completed Coursea's Functional Programming Principles in Scala</li>
+                        <li>completed Coursea's Principles of Reactive Programming</li>
+                        <li>fan of blend of functional and OOP programming</li>
+                        <li>fan of reactive programming</li>
+                        <li>fan of scala, rust</li>
+                    </ul>
 				</section>
 
-				<!-- Example of nested vertical slides -->
+                <section>
+                    <h1>Monolithic Web Apps</h1>
+                    <!-- <div style="text-align:center" data-svg-fragment="monolithic_two_tier_app.svg"></div> -->
+                    <img width="30%" height="30%" src="monolithic_two_tier_app.jpg">
+                </section>
+
+                <section>
+                    <h2>Monolithic Web Apps - the good:</h2>
+                    <ul>
+                        <li>app is small</li>
+                        <li>team is small</li>
+                        <li>budget is low</li>
+                        <li>DB transactions are needed</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Monolithic Web Apps - the ugly:</h2>
+                    <ul>
+                        <li>DB is single point of failure</li>
+                        <li>Web application throws http 500 errors when DB is down</li>
+                        <li>User cannot see anything useful on the page</li>
+                        <li>page view is serialized, i.e. user needs to wait until all data is available</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>Distributed Web Apps</h1>
+                    <img width="60%" height="60%" src="distributed.jpg">
+                </section>
+
+                <section>
+                    <h2>Distributed Architectures - the good:</h2>
+                    <ul>
+                        <li>allow technology variation - use scala, google go, ruby, etc</li>
+                        <li>encapsulated bounded context</li>
+                        <li>less intrusive, including a library or submodule is faily intrusive</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Distributed Architectures - the ugly:</h2>
+                    <ul>
+                        <li>web service may be down - need to fallback silently</li>
+                        <li>latency is unpredictable in distributed environments</li>
+                        <li>marshalling and unmarshalling data is yet another concern</li>
+                        <li>not panacea for all problems</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Netflix Hystrix: example call</h2>
+                    <img src="hystrix_latency.png">
+                </section>
+
+                <section>
+                    <h2>exponential latency distribution - why?</h2>
+                    <ul>
+                        <li>network congestion</li>
+                        <li>service maybe overloaded</li>
+                        <li>for services using GC based platforms - GC stop the world pauses</li>
+                        <li>exact explanation - beyond this presentation</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Reactive Programming to the rescue</h2>
+                    <ul>
+                        <li>Reactive Manifesto - http://www.reactivemanifesto.org</li>
+                        <li>another buzzword?</li>
+                        <li>scalable</li>
+                        <li>responsive</li>
+                        <li>resilient</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Http Protocol</h2>
+                    <ul>
+                        <li>http 1.0 - classical request response semantics</li>
+                        <li>http 1.1 - chunking http responses - flushing chunk by chunk</li>
+                        <li>http 2.0 - multiplexing many connection in one (coming soon)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Web Frameworks - Spring MVC 4.x</h2>
+                    <ul>
+                        <li>used heavily at mobile.de</li>
+                        <li>tailored well for http 1.0</li>
+                        <li>overall not satisfied - needed better solution</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>new project at mobile.de - Gibraltar</h2>
+                    <ul>
+                        <li>responsive model catalog (modelverzeichnis)</li>
+                        <li>an option to try a new web framework and metodology</li>
+                        <li>choose play framework 2.3.x and (Java 8)</li>
+                        <li>adopted facebook's pagelets concept</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>What is a pagelet?</h2>
+                    <ul>
+                        <li>stream-able part of html (div)</li>
+                        <li>encapsulated piece of logic - usually backend code + template</li>
+                    </ul>
+                    <img width="50%" height="50%" src="modelpress_pagelets.png">
+                </section>
+
+                <!-- Example of nested vertical slides -->
 				<section>
 					<section>
 						<h2>Vertical Slides</h2>
@@ -109,32 +232,6 @@
 					<p>
 						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
 					</p>
-				</section>
-
-				<section>
-					<h2>Works in Mobile Safari</h2>
-					<p>
-						Try it out! You can swipe through the slides and pinch your way to the overview.
-					</p>
-				</section>
-
-				<section>
-					<h2>Marvelous Unordered List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
 				</section>
 
 				<section data-markdown>
@@ -361,7 +458,6 @@ function linkify( selector ) {
 		<script src="js/reveal.min.js"></script>
 
 		<script>
-
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
@@ -374,8 +470,8 @@ function linkify( selector ) {
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
-				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-				// parallaxBackgroundSize: '2100px 900px',
+//				parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+//				parallaxBackgroundSize: '2100px 900px',
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
@@ -384,11 +480,10 @@ function linkify( selector ) {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/svg/reveal-svg-fragment.js', condition: function() { return !!document.querySelector( '[data-svg-fragment]' ); } }
 				]
 			});
-
 		</script>
-
 	</body>
 </html>
