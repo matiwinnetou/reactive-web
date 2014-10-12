@@ -75,82 +75,87 @@
                 <section>
                     <h2>Gibraltar project</h2>
                     <p>Model catalog (Modellverzeichnis) - informational pages about various makes, models and variants.</p>
-                    <p>Business goals:</p>
+                    <img src="mobile_model_verzeichnis.png"/>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project - business goals:</h2>
                     <ul>
                         <li>reduce bounce rate on mobile</li>
                         <li>increase value per visit</li>
                     </ul>
-                    <p>Technical goals:</p>
+                    <img width="50%" height="50%" src="mobile-bounce-graphic.jpg"/>
+                    <img width="50%" height="50%" src="mobile-bounce-rate-site-not-optimized.gif"/>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project - technical goals 1:</h2>
                     <ul>
+                        <li>optimize for mobile, tablet and desktop</li>
+                        <li>SEO friendly, i.e. bots crawlable</li>
                         <li>increase maintainability - no mega big controllers</li>
-                        <li>improve site speed</li>
-                        <li>piggy back on existing web services and provide new ones if needed</li>
+                        <li>improve page load time</li>
+                        <li>increase developer's productivity</li>
                     </ul>
-                </section>
-
-                <!--<li>choose play framework 2.3.x and (Java 8)</li>-->
-                <!--<li>adopted facebook's BigPipe and pagelets concept</li>-->
-
-                <section>
-                    <h2>Gibraltar - technical stack</h2>
-                    <p>MVC framework - Spring MVC - very popular at mobile.de?</p>
-                    <p>not the best framework for distributed architectures</p>
+                    <img src="bots_crawlable.jpg"/>
                 </section>
 
                 <section>
-                    <h1>Monolithic Web Apps</h1>
-                    <!-- <div style="text-align:center" data-svg-fragment="monolithic_two_tier_app.svg"></div> -->
-                    <img width="30%" height="30%" src="monolithic_two_tier_app.jpg">
-                </section>
-
-                <section>
-                    <h2>Monolithic Web Apps - the good:</h2>
+                    <h2>Gibraltar project - technical goals 2:</h2>
                     <ul>
-                        <li>app is small</li>
-                        <li>team is small</li>
-                        <li>budget is low</li>
-                        <li>DB transactions are needed</li>
+                        <li>piggy back on existing web services</li>
+                        <li>write new services - split responsibility across many web services</li>
+                        <li>in case of failure fail backback - no http 500 please</li>
+                        <li>prototype a more generic solution for upcoming new web projects</li>
                     </ul>
+                    <img width="70%" height="70%" src="distributed.jpg">
                 </section>
 
                 <section>
-                    <h2>Monolithic Web Apps - the ugly:</h2>
+                    <h2>Gibraltar - technical backend stack - MVC</h2>
+                    <p>Spring MVC - very popular at mobile.de</p>
+                    <p>
+                    <img src="spring_mvc.png"/>
+                    </p>
+                    <p>but is this the right solution to address those technical requirements?</p>
+                </section>
+
+                <section>
+                    <h2>Spring MVC - the ugly:</h2>
                     <ul>
-                        <li>DB is single point of failure</li>
-                        <li>Web application throws http 500 errors when DB is down</li>
-                        <li>User cannot see anything useful on the page</li>
-                        <li>page view is serialized, i.e. user needs to wait until all data is available</li>
+                        <li>works well with request and response (http 1.0) semantic but not chunked transfer encoding, i.e. flushing early content - (http 1.1)</li>
+                        <li>not very developer friendly, have to rebuilt and restart each time (spring loaded doesn't work well) - paid solutions available - JRebel</li>
+                        <li>idiomatic to block external http calls and request and response semantics</li>
+                        <li>possible to provide a callback as a return but then going into callback hell or necessity to use JDK 5 synchronisation concurrency primitives</li>
                     </ul>
+                    <p><br></p>
+                    <p>maybe there are alternatives? But wait a bit of theory first...</p>
                 </section>
 
                 <section>
-                    <h1>Distributed Web Apps</h1>
-                    <img width="60%" height="60%" src="distributed.jpg">
-                </section>
-
-                <section>
-                    <h2>Distributed Architectures - the good:</h2>
+                    <h2>Http Protocol - recap</h2>
                     <ul>
-                        <li>allow technology variation - use scala, google go, ruby, etc</li>
-                        <li>encapsulated bounded context</li>
-                        <li>one of first projects at mobile to use distributed architectures heavily</li>
-                        <li>less intrusive, including a library or submodule is faily intrusive</li>
+                        <li>http 1.0 - classical request response semantics</li>
+                        <li>http 1.1 - chunking http responses - flushing chunk by chunk (http://en.wikipedia.org/wiki/Chunked_transfer_encoding)</li>
+                        <li>http 2.0 - multiplexing many connection in one (coming soon)</li>
                     </ul>
                 </section>
 
                 <section>
                     <h2>Distributed Architectures - the ugly:</h2>
                     <ul>
-                        <li>web service may be down - need to fallback silently</li>
-                        <li>latency is unpredictable in distributed environments</li>
-                        <li>marshalling and unmarshalling data is yet another concern</li>
-                        <li>not panacea for all problems</li>
+                        <li>one of web services may be down - ideally need to fallback, no 500 http error</li>
+                        <li>failure in a distributed system - a norm</li>
+                        <li>network latency has long tail distribution</li>
                     </ul>
+                    <img src="internal_server_error.jpg"/>
                 </section>
 
                 <section>
-                    <h2>Netflix Hystrix: example call</h2>
-                    <img src="hystrix_latency.png">
+                    <h2>long tail latency - Netflix Hystrix: example call</h2>
+                    <img width="200%" height="200%" src="hystrix_latency.png">
+                    <p>the more services we have the higher probability to hit long tail</p>
+                    <p>do we want for a user to wait 1,5 sec at worst?</p>
                 </section>
 
                 <section>
@@ -159,18 +164,101 @@
                         <li>network congestion</li>
                         <li>service maybe overloaded</li>
                         <li>for services using GC based platforms - GC stop the world pauses</li>
-                        <li>exact explanation - beyond this presentation</li>
+                        <li>exact explanation - beyond this presentation - topic is studied</li>
+                    </ul>
+                    <img src="network_congestion.jpg"/>
+                </section>
+
+                <section>
+                    <h2></h2>
+                    <ul>
+                        <li>serially invoking services not an option</li>
+                        <li>Scatter / Gather pattern (fan out, fan in)</li>
+                        <li>Future get method blocks JVM thread - about 2 MB heap</li>
+                        <li>os threads are limited - not very scalable</li>
+                        <li>Quasar an option (quasar is a Java library that provides high-performance lightweight threads)</li>
+                        <li>overall not satisfied - needed better solution</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Reactive Programming to the rescue</h2>
+                    <h2>Lightweight threads</h2>
+                    <img src="quasar.png"/>
                     <ul>
-                        <li>Reactive Manifesto - http://www.reactivemanifesto.org</li>
-                        <li>another buzzword?</li>
-                        <li>scalable</li>
-                        <li>responsive</li>
-                        <li>resilient</li>
+                        <li>fixes 2 MB per thread but still no option to interleave and stuck to request and response semantics</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Reactive Programming to the rescue - another buzzword?</h2>
+                    <ul>
+                        <li>promotes good patterns for distributed architectures</li>
+                        <li>network call failure? - fail fast, provide fallback response</li>
+                        <li>operates on streams of data with many useful operators (e.g. interleave)</li>
+                        <li>scale to many concurrent users</li>
+                        <li>circuit breaker pattern - do not overload services in case of failure</li>
+                        <li>avoid thread blocking - in JVM thread blocks os thread (expensive)</li>
+                    </ul>
+                    <img src="reactive_programming.png"/>
+                    <p>Reactive Manifesto - http://www.reactivemanifesto.org</p>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe to the rescue</h2>
+                    <p><blockquote>"The general idea is to decompose web pages into small re-usable chunks of functionality called pagelets and pipeline them through several execution stages
+                    inside web servers and browsers. This allows progressive rendering at the front-end and results in exceptional front-end performance."</blockquote></p>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe</h2>
+                    <img width="80%" height="80%" src="facebook_bigpipe.png">
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe - a pagelet</h2>
+                    <p>
+                        <q>"<strong>a pagelet</strong> - a small chunk or region of a web page that has a single topic or functionality."</q>
+                    </p>
+                    <ul>
+                        <li>each pagelet can invoke zero to more remote services</li>
+                        <li>once pagelet is ready, it will be flushed to the browser via javascript</li>
+                        <li>stream-able part of html (div)</li>
+                        <li>encapsulated piece of logic - usually backend code + template, can be also CSS and JavaScript</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe - advantages</h2>
+                    <ul>
+                        <li>site speed - stream pagelets early</li>
+                        <li>reusable components and no God-alike MVC controllers - increased maintability</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Gibraltar - pagelets decomposition</h2>
+                    <img width="50%" height="50%" src="modelpress_pagelets.png">
+                    <p>both visible and invisible pagelets</p>
+                </section>
+
+                <section>
+                    <h2>Due to SEO and site speed concerns - support for three rendering modes:</h2>
+                    <ul>
+                        <li>serial - request and response</li>
+                        <li>chunked - streaming from to to bottom</li>
+                        <li>BigPipe injecting pagelets via JavaScript</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Play 2.3.x framework</h2>
+                    <img src="play_framework.png"/>
+                    <ul>
+                        <li>implementation of reactive programming - FRP (Functional Reactive Programming)</li>
+                        <li>http 1.1 - chunked transfer encoding first class citizen</li>
+                        <li>increased developer productivity (CTRL + R) - page reload</li>
+                        <li>build for performance and scalability</li>
+                        <li>ability to support three rendering modes</li>
                     </ul>
                 </section>
 
@@ -183,14 +271,14 @@
                     </ul>
                 </section>
 
-                <section>
-                    <h2>Web Frameworks - Spring MVC 4.x</h2>
-                    <ul>
-                        <li>used heavily at mobile.de</li>
-                        <li>tailored well for http 1.0</li>
-                        <li>overall not satisfied - needed better solution</li>
-                    </ul>
-                </section>
+                <!--<section>-->
+                    <!--<h2>Web Frameworks - Spring MVC 4.x</h2>-->
+                    <!--<ul>-->
+                        <!--<li>used heavily at mobile.de</li>-->
+                        <!--<li>tailored well for http 1.0</li>-->
+                        <!--<li>overall not satisfied - needed better solution</li>-->
+                    <!--</ul>-->
+                <!--</section>-->
 
                 <section>
                     <h2>Scatter / Gather pattern (fan out, fan in)</h2>
@@ -201,40 +289,24 @@
                     </ul>
                 </section>
 
-
-                <section>
-                    <h2>Facebook's BigPipe - it's all about site speed</h2>
-                    <p><blockquote>"The general idea is to decompose web pages into small re-usable chunks of functionality called pagelets and pipeline them through several execution stages
-                       inside web servers and browsers. This allows progressive rendering at the front-end and results in exceptional front-end performance."</blockquote></p>
-                </section>
-
-                <section>
-                    <h2>Facebook's BigPipe</h2>
-                    <p>
-                        <q>"pagelet - a small chunk or region of a web page that has a single topic or functionality."</q>
-                    </p>
-                    <img width="50%" height="50%" src="facebook_bigpipe.png">
-                    <ul>
-                        <li>each pagelet can invoke zero to more remote services</li>
-                        <li>once pagelet is ready it will stream the data out to the browser via javascript</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>What is a pagelet?</h2>
-                    <ul>
-                        <li>stream-able part of html (div)</li>
-                        <li>encapsulated piece of logic - usually backend code + template</li>
-                    </ul>
-                    <img width="50%" height="50%" src="modelpress_pagelets.png">
-                </section>
-
                 <section>
                     <h2>Is streaming pagelets via http 1.1 really faster?</h2>
                     <ul>
                         <li>for mostly fast external calls we found it to be slower!</li>
                         <li>today most of routers optimized for http 1.0</li>
                         <li>magic citrix setting: httpcompressionpush=1 (Compression on PUSH: DISABLED)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Gibralrar project learnings:</h2>
+                    <ul>
+                        <li>latest Google Bot is able to understand at least simple JavaScript, other bots unclear</li>
+                        <li>BigPipe - hard to do this right for users, pagelets flickering</li>
+                        <li>today's routers optimized for http request and response (http 1.0)</li>
+                        <li>monitoring web service calls crucial - problem may not be in the place where you thought</li>
+                        <li>possible to use play with Java but not always idiomatic</li>
+                        <li>Play's library - enumerators and iteratees hard to grok, RxJava and Observable may be better for Play Java</li>
                     </ul>
                 </section>
 
