@@ -73,6 +73,31 @@
 				</section>
 
                 <section>
+                    <h2>Gibraltar project</h2>
+                    <p>Model catalog (Modellverzeichnis) - informational pages about various makes, models and variants.</p>
+                    <p>Business goals:</p>
+                    <ul>
+                        <li>reduce bounce rate on mobile</li>
+                        <li>increase value per visit</li>
+                    </ul>
+                    <p>Technical goals:</p>
+                    <ul>
+                        <li>increase maintainability - no mega big controllers</li>
+                        <li>improve site speed</li>
+                        <li>piggy back on existing web services and provide new ones if needed</li>
+                    </ul>
+                </section>
+
+                <!--<li>choose play framework 2.3.x and (Java 8)</li>-->
+                <!--<li>adopted facebook's BigPipe and pagelets concept</li>-->
+
+                <section>
+                    <h2>Gibraltar - technical stack</h2>
+                    <p>MVC framework - Spring MVC - very popular at mobile.de?</p>
+                    <p>not the best framework for distributed architectures</p>
+                </section>
+
+                <section>
                     <h1>Monolithic Web Apps</h1>
                     <!-- <div style="text-align:center" data-svg-fragment="monolithic_two_tier_app.svg"></div> -->
                     <img width="30%" height="30%" src="monolithic_two_tier_app.jpg">
@@ -108,6 +133,7 @@
                     <ul>
                         <li>allow technology variation - use scala, google go, ruby, etc</li>
                         <li>encapsulated bounded context</li>
+                        <li>one of first projects at mobile to use distributed architectures heavily</li>
                         <li>less intrusive, including a library or submodule is faily intrusive</li>
                     </ul>
                 </section>
@@ -152,7 +178,7 @@
                     <h2>Http Protocol</h2>
                     <ul>
                         <li>http 1.0 - classical request response semantics</li>
-                        <li>http 1.1 - chunking http responses - flushing chunk by chunk</li>
+                        <li>http 1.1 - chunking http responses - flushing chunk by chunk (http://en.wikipedia.org/wiki/Chunked_transfer_encoding)</li>
                         <li>http 2.0 - multiplexing many connection in one (coming soon)</li>
                     </ul>
                 </section>
@@ -167,12 +193,30 @@
                 </section>
 
                 <section>
-                    <h2>new project at mobile.de - Gibraltar</h2>
+                    <h2>Scatter / Gather pattern (fan out, fan in)</h2>
                     <ul>
-                        <li>responsive model catalog (modelverzeichnis)</li>
-                        <li>an option to try a new web framework and metodology</li>
-                        <li>choose play framework 2.3.x and (Java 8)</li>
-                        <li>adopted facebook's pagelets concept</li>
+                        <li></li>
+                        <li>tailored well for http 1.0</li>
+                        <li>overall not satisfied - needed better solution</li>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h2>Facebook's BigPipe - it's all about site speed</h2>
+                    <p><blockquote>"The general idea is to decompose web pages into small re-usable chunks of functionality called pagelets and pipeline them through several execution stages
+                       inside web servers and browsers. This allows progressive rendering at the front-end and results in exceptional front-end performance."</blockquote></p>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe</h2>
+                    <p>
+                        <q>"pagelet - a small chunk or region of a web page that has a single topic or functionality."</q>
+                    </p>
+                    <img width="50%" height="50%" src="facebook_bigpipe.png">
+                    <ul>
+                        <li>each pagelet can invoke zero to more remote services</li>
+                        <li>once pagelet is ready it will stream the data out to the browser via javascript</li>
                     </ul>
                 </section>
 
@@ -183,6 +227,15 @@
                         <li>encapsulated piece of logic - usually backend code + template</li>
                     </ul>
                     <img width="50%" height="50%" src="modelpress_pagelets.png">
+                </section>
+
+                <section>
+                    <h2>Is streaming pagelets via http 1.1 really faster?</h2>
+                    <ul>
+                        <li>for mostly fast external calls we found it to be slower!</li>
+                        <li>today most of routers optimized for http 1.0</li>
+                        <li>magic citrix setting: httpcompressionpush=1 (Compression on PUSH: DISABLED)</li>
+                    </ul>
                 </section>
 
                 <!-- Example of nested vertical slides -->
@@ -461,7 +514,7 @@ function linkify( selector ) {
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
+				controls: false,
 				progress: true,
 				history: true,
 				center: true,
@@ -470,7 +523,7 @@ function linkify( selector ) {
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
-//				parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+//				parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-4.jpg',
 //				parallaxBackgroundSize: '2100px 900px',
 
 				// Optional libraries used to extend on reveal.js
