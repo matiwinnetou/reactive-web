@@ -123,13 +123,13 @@
                 <section>
                     <h2>Spring MVC - the ugly:</h2>
                     <ul>
-                        <li>works well with request and response (http 1.0) semantic but not chunked transfer encoding, i.e. flushing early content - (http 1.1)</li>
+                        <li>works well with request and response (http 1.0) but not chunked transfer encoding, i.e. flushing early content - (http 1.1)</li>
                         <li>not very developer friendly, have to rebuilt and restart each time (spring loaded doesn't work well) - paid solutions available - JRebel</li>
                         <li>idiomatic to block external http calls and request and response semantics</li>
                         <li>possible to provide a callback as a return but then going into callback hell or necessity to use JDK 5 synchronisation concurrency primitives</li>
                     </ul>
                     <p><br></p>
-                    <p>maybe there are alternatives? But wait a bit of theory first...</p>
+                    <p>maybe there are alternatives? Yes. But wait a bit of theory and reasoning behind first...</p>
                 </section>
 
                 <section>
@@ -153,39 +153,42 @@
 
                 <section>
                     <h2>long tail latency - Netflix Hystrix: example call</h2>
-                    <img width="200%" height="200%" src="hystrix_latency.png">
-                    <p>the more services we have the higher probability to hit long tail</p>
-                    <p>do we want for a user to wait 1,5 sec at worst?</p>
+                    <img width="50%" height="50%" src="hystrix_latency.png">
+                    <ul>
+                        <li>many services - high long tail probability</li>
+                        <li>do we want for a user to wait as long as longest service call response?</li>
+                        <p>99.5th percentile of calls has exponential latency</p>
+                    </ul>
                 </section>
 
                 <section>
-                    <h2>exponential latency distribution - why?</h2>
+                    <h2>long tail latency distribution - why?</h2>
                     <ul>
                         <li>network congestion</li>
                         <li>service maybe overloaded</li>
                         <li>for services using GC based platforms - GC stop the world pauses</li>
-                        <li>exact explanation - beyond this presentation - topic is studied</li>
+                        <li>exact explanation - beyond this presentation - topic is studied in academia and industry</li>
                     </ul>
                     <img src="network_congestion.jpg"/>
                 </section>
 
                 <section>
-                    <h2></h2>
+                    <h2>Spring MVC - past experiences with distributed architectures - part 1</h2>
                     <ul>
-                        <li>serially invoking services not an option</li>
+                        <li>serially invoking services (one by one) - not an option - bad performance</li>
                         <li>Scatter / Gather pattern (fan out, fan in)</li>
-                        <li>Future get method blocks JVM thread - about 2 MB heap</li>
-                        <li>os threads are limited - not very scalable</li>
-                        <li>Quasar an option (quasar is a Java library that provides high-performance lightweight threads)</li>
-                        <li>overall not satisfied - needed better solution</li>
+                        <li>Future get method blocks JVM thread - about 2 MB heap cost</li>
+                        <li>os threads are limited - not very scalable - need many machines or VMs</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Lightweight threads</h2>
-                    <img src="quasar.png"/>
+                    <h2>Spring MVC - past experiences with distributed architectures - part 2</h2>
                     <ul>
-                        <li>fixes 2 MB per thread but still no option to interleave and stuck to request and response semantics</li>
+                        <li>Quasar an option (quasar is a Java library that provides high-performance lightweight threads)</li>
+                        <li>for site speed - need to flush early - depending on which service response comes first</li>
+                        <li>async callbacks an option but then code is hard to read and maintain</li>
+                        <li>could talk for hours - overall not satisfied - needed better solution</li>
                     </ul>
                 </section>
 
@@ -201,6 +204,17 @@
                     </ul>
                     <img src="reactive_programming.png"/>
                     <p>Reactive Manifesto - http://www.reactivemanifesto.org</p>
+                </section>
+
+                <section>
+                    <h2>Reactive Programming - emerging field - libraries:</h2>
+                    <ul>
+                        <li>Reactive Extensions - with many variants: RxJava, RxScala, Rx.js, many more...</li>
+                        <li>Akka - actor model on the JVM</li>
+                        <li>Play framework and Enumerators and Iteratees</li>
+                        <li>Netflix Hystrix - monitoring and reactive patterns (e.g. circuit breaker, fallback)</li>
+                        <li>bacon.js</li>
+                    </ul>
                 </section>
 
                 <section>
@@ -221,10 +235,16 @@
                     </p>
                     <ul>
                         <li>each pagelet can invoke zero to more remote services</li>
-                        <li>once pagelet is ready, it will be flushed to the browser via javascript</li>
+                        <li>once pagelet is ready, it will be flushed to the browser via JavaScript</li>
                         <li>stream-able part of html (div)</li>
                         <li>encapsulated piece of logic - usually backend code + template, can be also CSS and JavaScript</li>
                     </ul>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe - pagelet - a reusable component?</h2>
+                    <blockquote>"Managing complexity is the most important technical topic in software development" - Steve McConnell in Code Complete</blockquote>
+                    <img width=50%" height="50%" src="car_parts.jpg"/>
                 </section>
 
                 <section>
@@ -242,11 +262,13 @@
                 </section>
 
                 <section>
-                    <h2>Due to SEO and site speed concerns - support for three rendering modes:</h2>
+                    <h2>But wait sites will be crawled by a bot - can a bot understand JavaScript?</h2>
+                    <p>At that time (March 2014) we didn't know, we assumed common knowledge - NO</p>
+                    <p>need to support for three rendering modes:</p>
                     <ul>
-                        <li>serial - request and response</li>
-                        <li>chunked - streaming from to to bottom</li>
-                        <li>BigPipe injecting pagelets via JavaScript</li>
+                        <li>serial - request and response (http 1.0)</li>
+                        <li>chunked - streaming from top to bottom (http 1.1)</li>
+                        <li>BigPipe injecting pagelets via JavaScript into DOM</li>
                     </ul>
                 </section>
 
@@ -259,54 +281,27 @@
                         <li>increased developer productivity (CTRL + R) - page reload</li>
                         <li>build for performance and scalability</li>
                         <li>ability to support three rendering modes</li>
+                        <li>best for technical requirements we had</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Http Protocol</h2>
-                    <ul>
-                        <li>http 1.0 - classical request response semantics</li>
-                        <li>http 1.1 - chunking http responses - flushing chunk by chunk (http://en.wikipedia.org/wiki/Chunked_transfer_encoding)</li>
-                        <li>http 2.0 - multiplexing many connection in one (coming soon)</li>
-                    </ul>
-                </section>
-
-                <!--<section>-->
-                    <!--<h2>Web Frameworks - Spring MVC 4.x</h2>-->
-                    <!--<ul>-->
-                        <!--<li>used heavily at mobile.de</li>-->
-                        <!--<li>tailored well for http 1.0</li>-->
-                        <!--<li>overall not satisfied - needed better solution</li>-->
-                    <!--</ul>-->
-                <!--</section>-->
-
-                <section>
-                    <h2>Scatter / Gather pattern (fan out, fan in)</h2>
-                    <ul>
-                        <li></li>
-                        <li>tailored well for http 1.0</li>
-                        <li>overall not satisfied - needed better solution</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Is streaming pagelets via http 1.1 really faster?</h2>
-                    <ul>
-                        <li>for mostly fast external calls we found it to be slower!</li>
-                        <li>today most of routers optimized for http 1.0</li>
-                        <li>magic citrix setting: httpcompressionpush=1 (Compression on PUSH: DISABLED)</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Gibralrar project learnings:</h2>
+                    <h2>Gibralrar project learnings - part 1:</h2>
                     <ul>
                         <li>latest Google Bot is able to understand at least simple JavaScript, other bots unclear</li>
                         <li>BigPipe - hard to do this right for users, pagelets flickering</li>
-                        <li>today's routers optimized for http request and response (http 1.0)</li>
-                        <li>monitoring web service calls crucial - problem may not be in the place where you thought</li>
-                        <li>possible to use play with Java but not always idiomatic</li>
+                        <li>today's routers optimized for http request and response (http 1.0) - magic citrix (NetScaler) setting - httpcompressionpush=1</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Gibralrar project learnings - part 2:</h2>
+                    <ul>
+                        <li>monitoring web service calls important - problem may not be in the place where you thought - used Netflix Hystrix</li>
+                        <li>possible to use Play with Java but not always idiomatic</li>
                         <li>Play's library - enumerators and iteratees hard to grok, RxJava and Observable may be better for Play Java</li>
+                        <li>Sbt - play's (simple build tool) actually has steep learning curve</li>
+                        <li>Play is stable but changes (API breaking changes every two releases)</li>
                     </ul>
                 </section>
 
