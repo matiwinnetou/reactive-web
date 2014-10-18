@@ -112,6 +112,14 @@
                     <img width="70%" height="70%" src="distributed.jpg">
                 </section>
 
+                <!--<section>-->
+                    <!--<h2>Diclaimer: standing on the shoulders of giants</h2>-->
+                    <!--<ul>-->
+                        <!--<li>Pl</li>-->
+                    <!--</ul>-->
+                    <!--<img width="70%" height="70%" src="distributed.jpg">-->
+                <!--</section>-->
+
                 <section>
                     <h2>Gibraltar - technical backend stack - MVC</h2>
                     <p>Spring MVC - very popular at mobile.de</p>
@@ -124,13 +132,35 @@
                 <section>
                     <h2>Spring MVC - the ugly:</h2>
                     <ul>
-                        <li>works well with request and response (http 1.0) but not chunked transfer encoding, i.e. flushing early content - (http 1.1)</li>
-                        <li>not very developer friendly, have to rebuilt and restart each time (spring loaded doesn't work well) - paid solutions available - JRebel</li>
-                        <li>idiomatic to block external http calls and request and response semantics</li>
-                        <li>possible to provide a callback as a return but then going into callback hell or necessity to use JDK 5 synchronisation concurrency primitives</li>
+                        <li>works well with http 1.0 - request and response model</li>
+                        <li>not very developer friendly</li>
+                        <li>idiomatic to block external http calls</li>
+                        <li>possible to do callbacks and return DeferredResult but...</li>
                     </ul>
                     <p><br></p>
                     <p>maybe there are alternatives? Yes. But wait a bit of theory and reasoning behind first...</p>
+                    <aside class="notes">
+                        <ul>
+                            <li>works well with request and response (http 1.0) but not chunked transfer encoding, i.e. flushing early content - (http 1.1)</li>
+                            <li>not very developer friendly, have to rebuilt and restart each time (spring loaded doesn't work well) - paid solutions available - JRebel. Also no errors in browser.</li>
+                            <li>idiomatic to block external http calls</li>
+                            <li>possible to do callbacks and return DeferredResult but... you run to callback hell and necessity to use low-level JDK 5 synchronisation concurrency primitives</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Callback hell:</h2>
+                    <ul>
+                        <li>avoid...</li>
+                        <li>first encounter with async programming, callbacks are imperative</li>
+                        <li>FRP (Functional Reactive Programming) is easier to reason about but...</li>
+                    </ul>
+                    <ul>
+                        <li>Adobe: most UI bugs are in callbacks</li>
+                        <li>possible to do callbacks and return DeferredResult but...</li>
+                    </ul>
+                    <img src="most_ui_bugs.png"/>
                 </section>
 
                 <section>
@@ -364,7 +394,7 @@
                     <img src="any_questions.jpg"/>
                 </section>
 
-                <!--&lt;!&ndash; Example of nested vertical slides &ndash;&gt;-->
+                <!--<!-- Example of nested vertical slides -->-->
 				<!--<section>-->
 					<!--<section>-->
 						<!--<h2>Vertical Slides</h2>-->
