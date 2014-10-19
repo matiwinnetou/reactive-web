@@ -1,0 +1,22 @@
+{
+  "name": "reactive-web",
+  "version": "0.0.1",
+  "homepage": "https://github.com/matiwinnetou/reactive-web",
+  "authors": [
+    "Mateusz Szczap <mateusz.szczap@gmail.com>"
+  ],
+  "description": "demonstrates Facebook's BigPipe pagelets concept with Play framework 2.3.x",
+  "license": "Apache 2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}
