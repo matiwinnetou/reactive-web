@@ -13,9 +13,8 @@ public class MiniSrpPagelet extends Controller {
         return F.Promise.pure(MiniSrpPageletModel.EMPTY);
     }
 
-//    public static HtmlStream stream() {
-//        views.html.modelDesc.render()
-////        return HtmlStream.apply(createModel().map(model -> views.modelDesc.modelDescPagelet));
-//    }
+    public static HtmlStream stream() {
+        return HtmlStream.apply(createModel().map(model -> views.html.modelDesc.modelDescPagelet.render(model.getTitle(), model.getCount(), model.getItems())));
+    }
 
 }
