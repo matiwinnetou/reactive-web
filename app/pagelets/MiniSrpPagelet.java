@@ -9,12 +9,13 @@ import ui.HtmlStream;
  */
 public class MiniSrpPagelet extends Controller {
 
-    public static F.Promise<MiniSrpPageletModel> model() {
-
+    public static F.Promise<MiniSrpPageletModel> createModel() {
+        return F.Promise.pure(MiniSrpPageletModel.EMPTY);
     }
 
-    public static HtmlStream stream() {
-
-    }
+//    public static HtmlStream stream() {
+//        views.html.modelDesc.render()
+////        return HtmlStream.apply(createModel().map(model -> views.modelDesc.modelDescPagelet));
+//    }
 
 }

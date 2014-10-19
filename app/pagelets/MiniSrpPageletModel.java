@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class MiniSrpPageletModel {
 
+    public static MiniSrpPageletModel EMPTY = new MiniSrpPageletModel("", 0, Lists.newArrayList());
+
     private String title = "";
     private int count = 0;
     private List<Item> items = Lists.newArrayList();
