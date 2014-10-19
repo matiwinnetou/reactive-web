@@ -15,16 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  * Created by Mateusz Szczap on 19/10/14.
  */
-public class UseCase1 extends Controller {
-
-    public static F.Promise<Result> index() {
-        final HtmlStream stream1 = HtmlStream.apply(delayed("hello", 1));
-        final HtmlStream stream2 = HtmlStream.apply(delayed("world", 2));
-
-        final HtmlStream composedStream = stream1.andThen(HtmlStream.apply(" ")).andThen(stream2);
-
-        return render(composedStream);
-    }
+public class UseCase2 extends Controller {
 
     //if first response is fast we flush this immediately
     public static F.Promise<Result> index_a() {
