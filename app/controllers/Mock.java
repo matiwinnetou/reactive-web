@@ -10,7 +10,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.time.YearMonth;
 import java.util.List;
 
 /**
@@ -61,11 +60,12 @@ public class Mock extends Controller {
 
     private static SearchResults.Item car1() {
         return new SearchResults.Item(
-                "Ford Mondeo Turnier 2.0 TDCi AUTOMATIK NAVI AHK PDCFord Mondeo Turnier 2.0 TDCi AUTOMATIK NAVI AHK PDC",
+                "Ford Mondeo Turnier 2.0 TDCi AUTOMATIK NAVI AHK PDC",
+                1220,
                 "DE",
                 "12167",
                 "Berlin",
-                YearMonth.of(2005, 05),
+                "2005/05",
                 120990,
                 80,
                 8.7F,
@@ -74,11 +74,12 @@ public class Mock extends Controller {
 
     private static SearchResults.Item car2() {
         return new SearchResults.Item(
-                "Ford Mondeo Turnier 2.0 TDCi Aut.Ford Mondeo Turnier 2.0 TDCi Aut.",
+                "Ford Mondeo Turnier 2.0 TDCi Aut.",
+                9022,
                 "DE",
                 "72072",
                 "Landau",
-                YearMonth.of(2001, 05),
+                "2001/02",
                 80100,
                 60,
                 7.7F,
@@ -87,11 +88,12 @@ public class Mock extends Controller {
 
     private static SearchResults.Item car3() {
         return new SearchResults.Item(
-                "Ford Mondeo 2.0 Turnier TDCi Ghia VollausstattungFord Mondeo 2.0 Turnier TDCi Ghia Vollausstattung",
+                "Ford Mondeo 2.0 Turnier TDCi Ghia Vollausstattung",
+                7654,
                 "FR",
                 "129011",
                 "Paris",
-                YearMonth.of(1990, 05),
+                "1990/09",
                 200000,
                 120,
                 10.7F,

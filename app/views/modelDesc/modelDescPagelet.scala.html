@@ -1,6 +1,12 @@
 @(title: java.lang.String, count: java.lang.Integer, items: java.util.List[pagelets.MiniSrpPageletModel.Item])
 
 <div id="modelDescP">
-   title:@title<br/>
-   count:@count<br/>
+   title: @title<br>
+   count: @count<br>
+   Items:
+   <ul>
+   @for(item <- items) {
+     <li>@item.getTitle() : @item.getPrice() EUR: @item.getLine1() : @item.getLine2(): @item.getLine3()</li>
+   }
+   </ul>
 </div>

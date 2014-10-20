@@ -2,7 +2,6 @@ package domain;
 
 import com.google.common.collect.Lists;
 
-import java.time.YearMonth;
 import java.util.List;
 
 /**
@@ -13,6 +12,9 @@ public class SearchResults {
     private String title = "";
     private int count = 0;
     private List<Item> items = Lists.newArrayList();
+
+    public SearchResults() {
+    }
 
     public SearchResults(String title, int count, final List<Item> items) {
         this.title = title;
@@ -44,25 +46,31 @@ public class SearchResults {
     public static class Item {
 
         private String title = "";
+        private int price;
         private String countryCode = "";
         private String postCode = "";
         private String city = "";
-        private YearMonth firstReg = YearMonth.of(1900, 1);
+        private String firstReg = "";
         private int mileage  = 0;
         private int powerKw = 0;
         private float fuelConsumptionCombined = 0.0F;
         private float co2Combined = 0.0F;
 
+        public Item() {
+        }
+
         public Item(String title,
+                    int price,
                     String countryCode,
                     String postCode,
                     String city,
-                    YearMonth firstReg,
+                    String firstReg,
                     int mileage,
                     int powerKw,
                     float fuelConsumptionCombined,
                     float co2Combined) {
             this.title = title;
+            this.price = price;
             this.countryCode = countryCode;
             this.postCode = postCode;
             this.city = city;
@@ -71,6 +79,10 @@ public class SearchResults {
             this.powerKw = powerKw;
             this.fuelConsumptionCombined = fuelConsumptionCombined;
             this.co2Combined = co2Combined;
+        }
+
+        public int getPrice() {
+            return price;
         }
 
         public String getTitle() {
@@ -89,7 +101,7 @@ public class SearchResults {
             return city;
         }
 
-        public YearMonth getFirstReg() {
+        public String getFirstReg() {
             return firstReg;
         }
 
@@ -113,6 +125,7 @@ public class SearchResults {
         public String toString() {
             return "Item{" +
                     "title='" + title + '\'' +
+                    ", price='" + price + '\'' +
                     ", countryCode='" + countryCode + '\'' +
                     ", postCode='" + postCode + '\'' +
                     ", city='" + city + '\'' +
