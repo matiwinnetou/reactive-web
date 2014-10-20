@@ -12,6 +12,9 @@ public class VehicleData {
     private String cubicCapacity = "";
     private String modelDescription = "";
 
+    public VehicleData() {
+    }
+
     public VehicleData(final int vehicleId, String make, String model, final String variant, String cubicCapacity, String modelDescription) {
         this.vehicleId = vehicleId;
         this.make = make;

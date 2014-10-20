@@ -8,6 +8,9 @@ public class VehicleImage {
     private int vehicleId;
     private String imageUrl;
 
+    public VehicleImage() {
+    }
+
     public VehicleImage(int vehicleId, String imageUrl) {
         this.vehicleId = vehicleId;
         this.imageUrl = imageUrl;

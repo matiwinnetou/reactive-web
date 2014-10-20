@@ -1,0 +1,10 @@
+@(title: String, count: Integer, items: List[pagelets.MiniSrpPageletModel.Item])
+
+title: @title<br>
+count: @count<br>
+Items:
+<ul>
+    @for(item <- items) {
+        <li>@item.getTitle() : @item.getPrice() EUR: @item.getLine1() : @item.getLine2(): @item.getLine3()</li>
+    }
+</ul>

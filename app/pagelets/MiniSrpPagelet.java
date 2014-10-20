@@ -5,6 +5,7 @@ import play.libs.F;
 import play.mvc.Controller;
 import ui.HtmlStream;
 import utils.FakeServiceClient;
+import views.html.miniSrpPagelet;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class MiniSrpPagelet extends Controller {
             final int count = model.getCount();
             final List<MiniSrpPageletModel.Item> items = model.getItems();
 
-            return views.html.modelDesc.modelDescPagelet.render(title, count, items);
+            return miniSrpPagelet.render(title, count, items);
         }));
     }
 

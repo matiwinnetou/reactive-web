@@ -11,6 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  */
@@ -18,15 +19,15 @@ public class Mock extends Controller {
 
     public static F.Promise<Result> mock(final String serviceName, int vehicleId) {
         switch(serviceName) {
-            case "vehicleData": return respond(Json.toJson(fakeVehicleData()), 1);
-            case "vehicleImage": return respond(Json.toJson(fakeVehicleImage()), 5);
-            case "searchResults": return respond(Json.toJson(fakeSearchResults()), 2);
+            case "vehicleData": return respond(Json.toJson(fakeVehicleData()), 0);
+            case "vehicleImage": return respond(Json.toJson(fakeVehicleImage()), 1);
+            case "searchResults": return respond(Json.toJson(fakeSearchResults()), 3);
             default: return F.Promise.pure(badRequest(String.format("serviceName %s not supported!", serviceName)));
         }
     }
 
     private static F.Promise<Result> respond(final JsonNode json, final int delayInSeconds) {
-        return F.Promise.timeout(ok(json), delayInSeconds);
+        return F.Promise.timeout(ok(json), delayInSeconds, TimeUnit.SECONDS);
     }
 
     private static VehicleData fakeVehicleData() {

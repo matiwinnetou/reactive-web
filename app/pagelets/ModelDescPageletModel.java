@@ -5,14 +5,19 @@ package pagelets;
  */
 public class ModelDescPageletModel {
 
-    private String title;
-    private String imageUrl;
-    private String modelDescription;
+    private String title = "";
+    private String imageUrl = "";
+    private String modelDescription = "";
+
+    public static final ModelDescPageletModel EMPTY = new ModelDescPageletModel();
 
     public ModelDescPageletModel(String title, String imageUrl, String modelDescription) {
         this.title = title;
         this.imageUrl = imageUrl;
         this.modelDescription = modelDescription;
+    }
+
+    public ModelDescPageletModel() {
     }
 
     public String getTitle() {
