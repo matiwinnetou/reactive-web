@@ -63,6 +63,7 @@ public class Mock extends Controller {
         return new SearchResults.Item(
                 "Ford Mondeo Turnier 2.0 TDCi AUTOMATIK NAVI AHK PDC",
                 1220,
+                "http://i.ebayimg.com/00/s/NzY4WDEwMjQ=/z/~OQAAOSwY45URsn~/$_18.JPG",
                 "DE",
                 "12167",
                 "Berlin",
@@ -77,6 +78,7 @@ public class Mock extends Controller {
         return new SearchResults.Item(
                 "Ford Mondeo Turnier 2.0 TDCi Aut.",
                 9022,
+                "http://i.ebayimg.com/00/s/NzY4WDEwMjQ=/z/9jkAAOSw6EhURsHB/$_18.JPG",
                 "DE",
                 "72072",
                 "Landau",
@@ -91,6 +93,7 @@ public class Mock extends Controller {
         return new SearchResults.Item(
                 "Ford Mondeo 2.0 Turnier TDCi Ghia Vollausstattung",
                 7654,
+                "http://i.ebayimg.com/00/s/NTc2WDEwMjQ=/z/GM8AAOSwU9xURsLl/$_18.JPG",
                 "FR",
                 "129011",
                 "Paris",

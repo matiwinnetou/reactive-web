@@ -47,6 +47,7 @@ public class SearchResults {
 
         private String title = "";
         private int price;
+        private String imageUrl;
         private String countryCode = "";
         private String postCode = "";
         private String city = "";
@@ -61,6 +62,7 @@ public class SearchResults {
 
         public Item(String title,
                     int price,
+                    String imageUrl,
                     String countryCode,
                     String postCode,
                     String city,
@@ -71,6 +73,7 @@ public class SearchResults {
                     float co2Combined) {
             this.title = title;
             this.price = price;
+            this.imageUrl = imageUrl;
             this.countryCode = countryCode;
             this.postCode = postCode;
             this.city = city;
@@ -83,6 +86,10 @@ public class SearchResults {
 
         public int getPrice() {
             return price;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
         }
 
         public String getTitle() {

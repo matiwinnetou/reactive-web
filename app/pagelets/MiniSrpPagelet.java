@@ -32,11 +32,12 @@ public class MiniSrpPagelet extends Controller {
                 .map(item -> {
                     final String title = item.getTitle();
                     final int price = item.getPrice();
+                    final String imageUrl = item.getImageUrl();
                     final String line1 = String.format("%s %s", item.getPostCode(), item.getCity());
                     final String line2 = String.format("%s, %d", item.getFirstReg(), item.getMileage());
                     final String line3 = String.format("%d kW (%d PS)", item.getPowerKw(), Math.round(item.getPowerKw() * 1.359));
 
-                    return new MiniSrpPageletModel.Item(title, price, line1, line2, line3, "");
+                    return new MiniSrpPageletModel.Item(title, price, imageUrl, line1, line2, line3, "");
                 })
                 .collect(Collectors.toList());
     }

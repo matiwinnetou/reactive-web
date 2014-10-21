@@ -12,19 +12,22 @@ public class FakeServiceClient {
     public static F.Promise<SearchResults> callSearchResults(final int vehicleId) {
         return WS.url(createUrl("searchResults", vehicleId)).get()
                 .map(response -> response.getBody())
-                .map(str -> Json.fromJson(Json.parse(str), SearchResults.class));
+                .map(str -> Json.fromJson(Json.parse(str), SearchResults.class))
+                .recover(t -> new SearchResults());
     }
 
     public static F.Promise<VehicleData> callVehicleData(final int vehicleId) {
         return WS.url(createUrl("vehicleData", vehicleId)).get()
                 .map(response -> response.getBody())
-                .map(str -> Json.fromJson(Json.parse(str), VehicleData.class));
+                .map(str -> Json.fromJson(Json.parse(str), VehicleData.class))
+                .recover(t -> new VehicleData());
     }
 
     public static F.Promise<VehicleImage> callVehicleImage(final int vehicleId) {
         return WS.url(createUrl("vehicleImage", vehicleId)).get()
                 .map(response -> response.getBody())
-                .map(str -> Json.fromJson(Json.parse(str), VehicleImage.class));
+                .map(str -> Json.fromJson(Json.parse(str), VehicleImage.class))
+                .recover(t -> new VehicleImage());
     }
 
     private static String createUrl(final String name, final int vehicleId) {

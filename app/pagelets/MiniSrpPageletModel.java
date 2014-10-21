@@ -46,14 +46,16 @@ public class MiniSrpPageletModel {
 
         private String title = "";
         private int price = 0;
+        private String imageUrl = "";
         private String line1 = "";
         private String line2 = "";
         private String line3 = "";
         private String line4 = "";
 
-        public Item(String title, int price, String line1, String line2, String line3, String line4) {
+        public Item(String title, int price, String imageUrl, String line1, String line2, String line3, String line4) {
             this.title = title;
             this.price = price;
+            this.imageUrl = imageUrl;
             this.line1 = line1;
             this.line2 = line2;
             this.line3 = line3;
@@ -66,6 +68,10 @@ public class MiniSrpPageletModel {
 
         public int getPrice() {
             return price;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
         }
 
         public String getLine1() {
@@ -89,6 +95,7 @@ public class MiniSrpPageletModel {
             return "Item{" +
                     "title='" + title + '\'' +
                     ", price=" + price +
+                    ", imageUrl=" + imageUrl +
                     ", line1='" + line1 + '\'' +
                     ", line2='" + line2 + '\'' +
                     ", line3='" + line3 + '\'' +
