@@ -48,7 +48,7 @@ public class MiniSrpPagelet extends Controller {
             final int count = model.getCount();
             final List<MiniSrpPageletModel.Item> items = model.getItems();
 
-            return miniSrpPagelet.render(title, count, items);
+            return miniSrpPagelet.render(model.isEnabled(), title, count, items);
         }));
     }
 

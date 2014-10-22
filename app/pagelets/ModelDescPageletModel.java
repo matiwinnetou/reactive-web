@@ -20,6 +20,10 @@ public class ModelDescPageletModel {
     public ModelDescPageletModel() {
     }
 
+    public boolean isEnabled() {
+        return !title.equalsIgnoreCase("");
+    }
+
     public String getTitle() {
         return title;
     }

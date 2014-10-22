@@ -28,7 +28,7 @@ public class ModelDescPagelet extends Controller {
 
     public static HtmlStream stream() {
         return HtmlStream.apply(createModel().map(model
-                -> views.html.modelDescPagelet.render(model.getTitle(), model.getImageUrl(), model.getModelDescription())));
+                -> views.html.modelDescPagelet.render(model.isEnabled(), model.getTitle(), model.getImageUrl(), model.getModelDescription())));
     }
 
 }

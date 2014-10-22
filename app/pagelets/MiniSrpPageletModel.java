@@ -21,6 +21,10 @@ public class MiniSrpPageletModel {
         this.items = items;
     }
 
+    public boolean isEnabled() {
+        return !title.equalsIgnoreCase("");
+    }
+
     public String getTitle() {
         return title;
     }
