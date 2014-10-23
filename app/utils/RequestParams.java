@@ -1,3 +1,10 @@
+/**
+ * Apache 2
+ * Copyright 2014 The Apache Software Foundation
+ *
+ * This product includes software developed at
+ * The Apache Software Foundation (http://www.apache.org/).
+ */
 package utils;
 
 import play.mvc.Http;
@@ -7,7 +14,7 @@ import java.util.Optional;
 import static java.util.Optional.ofNullable;
 
 /**
- * Created by mati on 19/10/14.
+ * Created by Mateusz Szczap on 19/10/14.
  */
 public class RequestParams {
 

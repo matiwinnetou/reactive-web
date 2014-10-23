@@ -5,18 +5,19 @@
 */
 package ui
 
-import play.api.libs.iteratee.{Iteratee, Enumeratee, Enumerator}
-import scala.concurrent.Future
-import play.api.mvc.{Result, Codec}
-import play.api.libs.concurrent.Execution.Implicits._
-import play.mvc.Results.Chunks.Out
-import play.api.http.{Writeable, ContentTypeOf}
-import play.mvc.Results.Chunks
-import scala.language.implicitConversions
-import play.libs.F
-import play.twirl.api.{HtmlFormat, Html, Format}
-import scala.collection.immutable.Seq
 import play.Logger
+import play.api.http.{ContentTypeOf, Writeable}
+import play.api.libs.concurrent.Execution.Implicits._
+import play.api.libs.iteratee.{Enumeratee, Enumerator, Iteratee}
+import play.api.mvc.{Codec, Result}
+import play.libs.F
+import play.mvc.Results.Chunks
+import play.mvc.Results.Chunks.Out
+import play.twirl.api.{Format, Html, HtmlFormat}
+
+import scala.collection.immutable.Seq
+import scala.concurrent.Future
+import scala.language.implicitConversions
 import scala.util.{Failure, Success}
 
 /**
@@ -140,7 +141,7 @@ object HtmlStream {
    * @return
    */
   def interleave(streams: java.util.List[HtmlStream]): HtmlStream = {
-    import collection.JavaConverters._
+    import scala.collection.JavaConverters._
     HtmlStream(Enumerator.interleave(streams.asScala.map(_.enumerator)))
   }
 

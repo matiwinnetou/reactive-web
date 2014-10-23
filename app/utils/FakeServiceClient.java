@@ -7,8 +7,6 @@ import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
 
-import java.util.concurrent.TimeUnit;
-
 public class FakeServiceClient {
 
     public static F.Promise<SearchResults> callSearchResults(final int vehicleId) {

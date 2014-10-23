@@ -5,13 +5,14 @@
 */
 package ui
 
-import play.twirl.api.Html
-import scala.concurrent.Future
-import play.api.libs.concurrent.Execution.Implicits._
-import play.api.mvc.{Cookie, Cookies, Codec, Result}
-import play.api.libs.iteratee.Iteratee
 import play.api.http.HeaderNames
+import play.api.libs.concurrent.Execution.Implicits._
+import play.api.libs.iteratee.Iteratee
+import play.api.mvc.{Codec, Cookie, Cookies, Result}
 import play.libs.F.Promise
+import play.twirl.api.Html
+
+import scala.concurrent.Future
 
 /**
  * Helpers for working with small "pieces" of pages.
