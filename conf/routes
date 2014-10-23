@@ -10,6 +10,7 @@ GET        /usecase1a                controllers.UseCase1.index_a()
 GET        /usecase1b                controllers.UseCase1.index_b()
 GET        /usecase2                 controllers.UseCase2.index()
 GET        /usecase3                 controllers.UseCase3.index()
+GET        /usecase4                 controllers.UseCase4.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file             controllers.Assets.at(path="/public", file)

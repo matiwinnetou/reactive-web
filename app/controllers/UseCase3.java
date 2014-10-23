@@ -16,10 +16,13 @@ import ui.Pagelet;
 public class UseCase3 extends Controller {
 
     public static Result index() {
-        final HtmlStream modelDesc = Pagelet.renderStream(ModelDescPagelet.stream().foldJ(), "modelDescP");
-        final HtmlStream miniSrp = Pagelet.renderStream(MiniSrpPagelet.stream().foldJ(), "miniSrpP");
+        final HtmlStream modelDesc = ModelDescPagelet.stream();
+        final HtmlStream miniSrp = MiniSrpPagelet.stream();
 
-        final HtmlStream bigPipe = HtmlStream.interleave(Lists.newArrayList(modelDesc, miniSrp));
+        final HtmlStream modelDescPagelet = Pagelet.renderStream(modelDesc, "modelDescP");
+        final HtmlStream miniSrpPagelet = Pagelet.renderStream(miniSrp, "miniSrpP");
+
+        final HtmlStream bigPipe = HtmlStream.interleave(Lists.newArrayList(modelDescPagelet, miniSrpPagelet));
 
         final HtmlStream out = (HtmlStream) views.stream.usecase3.render(HtmlStream.empty(), HtmlStream.empty(), bigPipe);
 

@@ -1,3 +1,8 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Yevgeniy Brikman
+*/
 package ui
 
 import play.twirl.api.Html
@@ -81,5 +86,15 @@ object Pagelet {
   def renderStream(htmlPromise: Promise[Html], id: String): HtmlStream = {
     renderStream(htmlPromise.wrapped(), id)
   }
+
+  /**
+   * Java API. Wrap the given Html in a script tag that will inject the Html into the DOM node with the given id.
+   * Returns an HtmlStream that can be used in a .scala.stream template.
+   *
+   * @param stream
+   * @param id
+   * @return
+   */
+  def renderStream(stream: HtmlStream, id: String): HtmlStream = renderStream(stream.foldJ(), id)
 
 }

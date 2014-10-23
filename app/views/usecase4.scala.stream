@@ -1,0 +1,17 @@
+@(modelDescPagelet: HtmlStream, miniSrpPagelet: HtmlStream, bigPipe: HtmlStream)
+
+<html>
+    <head>
+    </head>
+    <body>
+        <div id="modelDescP">
+            @modelDescPagelet
+        </div>
+        <hr>
+        <div id="miniSrpP">
+            @miniSrpPagelet
+        </div>
+    </body>
+</html>
+
+@bigPipe
