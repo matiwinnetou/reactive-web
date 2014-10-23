@@ -19,9 +19,9 @@ public class Mock extends Controller {
 
     public static F.Promise<Result> mock(final String serviceName, int vehicleId) {
         switch(serviceName) {
-            case "vehicleData": return respond(Json.toJson(fakeVehicleData()), 0);
-            case "vehicleImage": return respond(Json.toJson(fakeVehicleImage()), 1);
-            case "searchResults": return respond(Json.toJson(fakeSearchResults()), 3);
+            case "vehicleData": return respond(Json.toJson(fakeVehicleData()), 3);
+            case "vehicleImage": return respond(Json.toJson(fakeVehicleImage()), 3);
+            case "searchResults": return respond(Json.toJson(fakeSearchResults()), 1);
             default: return F.Promise.pure(badRequest(String.format("serviceName %s not supported!", serviceName)));
         }
     }

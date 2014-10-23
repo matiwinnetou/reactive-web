@@ -4,14 +4,8 @@
     <head>
     </head>
     <body>
-        <div id="modelDescP">
-            @modelDescPagelet
-        </div>
-
+        @modelDescPagelet
         <hr>
-
-        <div id="miniSrpP">
-            @miniSrpPagelet
-        </div>
+        @miniSrpPagelet
     </body>
 </html>
