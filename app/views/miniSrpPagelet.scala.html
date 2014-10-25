@@ -1,6 +1,8 @@
-@(isEnabled: Boolean, title: String, count: Integer, items: List[pagelets.MiniSrpPageletModel.Item])
+@(isEnabled: java.lang.Boolean, title: java.lang.String, count: java.lang.Integer, items: java.util.List[pagelets.MiniSrpPageletModel.Item])
 
-@if(isEnabled) {
+@if(isEnabled.booleanValue()) {
+    <h2>MiniSRP</h2>
+    <br>
     @title<br>
     @count<br>
     <ul>
@@ -10,4 +12,3 @@
         }
     </ul>
 }
-

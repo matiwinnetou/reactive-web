@@ -24,12 +24,11 @@ public class MiniSrpPagelet extends Controller {
 
     /**
      * Creates a promise of a MiniSrpPageletModel
-     *
-     * @return a promise of model
      */
-    public static F.Promise<MiniSrpPageletModel> createModel() {
-        //invoke a fake client to get search results for vehicle id = 1
-        return FakeServiceClient.callSearchResults(1).map(r -> new MiniSrpPageletModel(r.getTitle(), r.getCount(), convert(r.getItems())));
+    public static F.Promise<MiniSrpPageletModel> createModel(final int searchDelayedInSecs, final boolean boom) {
+        //invoke a fake client to get search results for vehicle id = 1 and searchDelayedInSecs and boom (exception)
+        return FakeServiceClient.callSearchResults(1, searchDelayedInSecs, boom)
+                .map(r -> new MiniSrpPageletModel(r.getTitle(), r.getCount(), convert(r.getItems())));
     }
 
     private static List<MiniSrpPageletModel.Item> convert(final List<SearchResults.Item> items) {
@@ -46,11 +45,10 @@ public class MiniSrpPagelet extends Controller {
     }
 
     /**
-     * Returns a html stream representation of model
-     * @return
+     * Returns a html stream representation of MiniSrp pagelet
      */
-    public static HtmlStream stream() {
-        return HtmlStream.apply(createModel()
+    public static HtmlStream stream(final int searchDelayedInSecs, final boolean boom) {
+        return HtmlStream.apply(createModel(searchDelayedInSecs, boom)
                 .map(m -> miniSrpPagelet.render(m.isEnabled(), m.getTitle(), m.getCount(), m.getItems())));
     }
 

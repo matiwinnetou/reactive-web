@@ -1,6 +1,8 @@
-@(isEnabled: Boolean, title: String, imageUrl: String, modelDesc: String)
+@(isEnabled: java.lang.Boolean, title: java.lang.String, imageUrl: java.lang.String, modelDesc: java.lang.String)
 
-@if(isEnabled) {
+@if(isEnabled.booleanValue()) {
+    <h2>ModelDescription Pagelet</h2>
+    <br>
     @title<br>
     <img src="@imageUrl"/><br>
     <br>

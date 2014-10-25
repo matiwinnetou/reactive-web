@@ -20,9 +20,11 @@ import utils.Promises;
  */
 public class ModelDescPagelet extends Controller {
 
-    public static F.Promise<ModelDescPageletModel> createModel() {
-        final F.Promise<VehicleData> vehicleDataP = FakeServiceClient.callVehicleData(1);
-        final F.Promise<VehicleImage> vehicleImageP = FakeServiceClient.callVehicleImage(1);
+    public static F.Promise<ModelDescPageletModel> createModel(final int vehicleDataCallDelayedInSecs,
+                                                               final int vehicleImageCallDelayedInSecs,
+                                                               final boolean boom) {
+        final F.Promise<VehicleData> vehicleDataP = FakeServiceClient.callVehicleData(vehicleDataCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
+        final F.Promise<VehicleImage> vehicleImageP = FakeServiceClient.callVehicleImage(vehicleImageCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
 
         return Promises.zip(vehicleDataP, vehicleImageP, (vehicleData, vehicleImage) -> {
             final String title = String.format("%s %s %s", vehicleData.getMake(), vehicleData.getModel(), vehicleData.getVariant());
@@ -33,9 +35,12 @@ public class ModelDescPagelet extends Controller {
         });
     }
 
-    public static HtmlStream stream() {
-        return HtmlStream.apply(createModel().map(model
-                -> views.html.modelDescPagelet.render(model.isEnabled(), model.getTitle(), model.getImageUrl(), model.getModelDescription())));
+    public static HtmlStream stream(final int vehicleDataCallDelayedInSecs,
+                                    final int vehicleImageCallDelayedInSecs,
+                                    final boolean boom) {
+        final F.Promise<ModelDescPageletModel> miniSrpModelP = createModel(vehicleDataCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
+
+        return HtmlStream.apply(miniSrpModelP.map(m -> views.html.modelDescPagelet.render(m.isEnabled(), m.getTitle(), m.getImageUrl(), m.getModelDescription())));
     }
 
 }

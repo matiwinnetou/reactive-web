@@ -22,9 +22,13 @@ import ui.Pagelet;
  */
 public class UseCase3 extends Controller {
 
+    /**
+     * In this example even though the ModelDescription has two slow service call invocations we can still
+     * flush the response of MiniSrp pagelet stream via injecting div content into DOM.
+     */
     public static Result index() {
-        final HtmlStream modelDesc = ModelDescPagelet.stream();
-        final HtmlStream miniSrp = MiniSrpPagelet.stream();
+        final HtmlStream modelDesc = ModelDescPagelet.stream(4, 2, false);
+        final HtmlStream miniSrp = MiniSrpPagelet.stream(0, false);
 
         final HtmlStream modelDescPagelet = Pagelet.renderStream(modelDesc, "modelDescP");
         final HtmlStream miniSrpPagelet = Pagelet.renderStream(miniSrp, "miniSrpP");

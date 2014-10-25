@@ -1,3 +1,10 @@
+/**
+ * Apache 2
+ * Copyright 2014 The Apache Software Foundation
+ *
+ * This product includes software developed at
+ * The Apache Software Foundation (http://www.apache.org/).
+ */
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,17 +18,28 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Mock controller that simply returns fake json data
+ *
+ * Created by Mateusz Szczap on 19/10/14.
  */
 public class Mock extends Controller {
 
-    public static F.Promise<Result> mock(final String serviceName, int vehicleId) {
+    public static F.Promise<Result> mock(final String serviceName, final int vehicleId) {
+        final int secsDelayed = Optional.ofNullable(request().getQueryString("secsDelayed")).map(str -> Integer.parseInt(str)).orElse(0);
+        final boolean boom = Optional.ofNullable(request().getQueryString("boom")).map(str -> Boolean.valueOf(str)).orElse(false);
+
+        if (boom) {
+            return F.Promise.throwing(new RuntimeException("boom!!!"));
+        }
+
         switch(serviceName) {
-            case "vehicleData": return respond(Json.toJson(fakeVehicleData()), 3);
-            case "vehicleImage": return respond(Json.toJson(fakeVehicleImage()), 3);
-            case "searchResults": return respond(Json.toJson(fakeSearchResults()), 1);
+            case "vehicleData": return respond(Json.toJson(fakeVehicleData()), secsDelayed);
+            case "vehicleImage": return respond(Json.toJson(fakeVehicleImage()), secsDelayed);
+            case "searchResults": return respond(Json.toJson(fakeSearchResults()), secsDelayed);
             default: return F.Promise.pure(badRequest(String.format("serviceName %s not supported!", serviceName)));
         }
     }

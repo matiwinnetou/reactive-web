@@ -26,8 +26,8 @@ import utils.RequestParams;
 public class UseCase4 extends Controller {
 
     public static F.Promise<Result> index() {
-        final HtmlStream modelDescStream = ModelDescPagelet.stream();
-        final HtmlStream miniSrpStream = MiniSrpPagelet.stream();
+        final HtmlStream modelDescStream = ModelDescPagelet.stream(1, 2, false);
+        final HtmlStream miniSrpStream = MiniSrpPagelet.stream(0, false);
 
         final PageRenderingMode pageRenderingMode = RequestParams.getPageRenderingMode(request());
 

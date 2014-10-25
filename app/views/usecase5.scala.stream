@@ -1,0 +1,11 @@
+@(modelDescPagelet: HtmlStream, miniSrpPagelet: HtmlStream)
+
+<html>
+    <head>
+    </head>
+    <body>
+        @modelDescPagelet
+        <hr>
+        @miniSrpPagelet
+    </body>
+</html>

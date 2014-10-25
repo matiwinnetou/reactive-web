@@ -16,43 +16,36 @@ import ui.HtmlStream;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This example demonstrates stream composition and streaming (http 1.1).
+ * This example demonstrates stream composition and most basic streaming (http 1.1) of strings.
+ *
+ * Produces two time delayed streams - hello and world respectively, composes those streams together and flushes to the
+ * browser one after another, i.e. first hello stream and then world stream
  *
  * Created by Mateusz Szczap on 19/10/14.
  */
 public class UseCase1 extends Controller {
 
     /**
-     * produces two streams delayed hello and world respectively, composes those streams together and flushes to the
-     * browser one after another, i.e. first hello stream and then world stream.
-     *
-     * @return
+     * Best case scenario - hello stream is fast
      */
-    public static Result index() {
+    public static Result index_a() {
         final HtmlStream helloStream = HtmlStream.apply(delayed("hello", 1));
-        final HtmlStream worldStream = HtmlStream.apply(delayed("world", 2));
+        final HtmlStream worldStream = HtmlStream.apply(delayed("world", 3));
 
         final HtmlStream composedStream = helloStream.andThen(HtmlStream.apply(" ")).andThen(worldStream);
 
         return ok(composedStream.toChunks());
     }
 
-    //if first response is fast we flush this immediately
-    public static Result index_a() {
-        final HtmlStream stream1 = HtmlStream.apply(delayed("hello", 0));
-        final HtmlStream stream2 = HtmlStream.apply(delayed("world", 2));
-
-        final HtmlStream composedStream = stream1.andThen(HtmlStream.apply(" ")).andThen(stream2);
-
-        return ok(composedStream.toChunks());
-    }
-
-    //if second response is fast we cannot flush this and we have to wait until first response completes
+    /**
+     * Worst case scenario - hello is slow, world is fast.
+     * @return
+     */
     public static Result index_b() {
-        final HtmlStream stream1 = HtmlStream.apply(delayed("hello", 2));
-        final HtmlStream stream2 = HtmlStream.apply(delayed("world", 0));
+        final HtmlStream helloStream = HtmlStream.apply(delayed("hello", 3));
+        final HtmlStream worldStream = HtmlStream.apply(delayed("world", 1));
 
-        final HtmlStream composedStream = stream1.andThen(HtmlStream.apply(" ")).andThen(stream2);
+        final HtmlStream composedStream = helloStream.andThen(HtmlStream.apply(" ")).andThen(worldStream);
 
         return ok(composedStream.toChunks());
     }

@@ -15,13 +15,26 @@ import utils.Promises;
 import java.util.concurrent.TimeUnit;
 
 /**
- * In this example we are invoking two fake services and are 'blocking' web page load until a response comes from both.
- * We will return a response as fast as the slowest service invocation. This method uses pure http 1.0
- * and content-length is known at the beginning of the request from client's point of view.
+ * First most basic example with Play framework (Java)
  *
  * Created by Mateusz Szczap on 19/10/14.
  */
 public class UseCase0 extends Controller {
+
+    /**
+     * In this example we are invoking two fake services and we are 'blocking' web page load until a response comes from both.
+     * We will return a response as fast as the slowest service invocation. This method uses pure http 1.0
+     * and content-length is known at the beginning of the request from client's point of view.
+     *
+     * Return a promise of a result based on invocation of two 'fake time delayed services', each returning just a string
+     */
+    public static F.Promise<Result> index() {
+        final F.Promise<String> helloP = delayedInSecs("hello", 1);
+        final F.Promise<String> worldP = delayedInSecs("world", 2);
+
+        return Promises.zip(helloP, worldP, (hello, world) -> String.format("%s %s", hello, world))
+                .map(str -> ok(str));
+    }
 
     /**
      * returns delayed in seconds invocation based on type T
@@ -32,19 +45,6 @@ public class UseCase0 extends Controller {
      */
     private static <T> F.Promise<T> delayedInSecs(final T t, final int delayInSecs) {
         return F.Promise.timeout(t, delayInSecs, TimeUnit.SECONDS);
-    }
-
-    /**
-     * Return a promise of a result based on invocation of two 'fake time delayed services', each returning just a string
-     *
-     * @return
-     */
-    public static F.Promise<Result> index() {
-        final F.Promise<String> helloP = delayedInSecs("hello", 1);
-        final F.Promise<String> worldP = delayedInSecs("world", 2);
-
-        return Promises.zip(helloP, worldP, (hello, world) -> String.format("%s %s", hello, world))
-                .map(str -> ok(str));
     }
 
 }
