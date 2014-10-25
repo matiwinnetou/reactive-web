@@ -19,7 +19,10 @@ import utils.PageRenderingMode;
 import utils.RequestParams;
 
 /**
- * Demonstrates all rendering modes working together
+ * Demonstrates all rendering modes working together, change rendering mode based on request or http header
+ * 0. default - http 1.1 chunked transfer (http://localhost:9000/usecase4)
+ * 1. serial=true - http 1.0 request and response (http://localhost:9000/usecase4?serial=true)
+ * 2. bigPipe=true - http 1.1 chunked transfer with injecting DIV content via JavaScript (http://localhost:9000/usecase4?bigPipe=true)
  *
  * Created by Mateusz Szczap on 19/10/14.
  */

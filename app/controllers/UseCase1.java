@@ -55,3 +55,19 @@ public class UseCase1 extends Controller {
     }
 
 }
+
+//curl -v http://localhost:9000/usecase1a
+//        * Hostname was NOT found in DNS cache
+//        *   Trying ::1...
+//        * Connected to localhost (::1) port 9000 (#0)
+//        > GET /usecase1a HTTP/1.1
+//        > User-Agent: curl/7.37.1
+//        > Host: localhost:9000
+//        > Accept: */*
+//>
+//< HTTP/1.1 200 OK
+//< Content-Type: text/html; charset=utf-8
+//< Transfer-Encoding: chunked
+//<
+//hello world
+//* Connection #0 to host localhost left intact
