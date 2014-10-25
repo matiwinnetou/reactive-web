@@ -5,8 +5,8 @@
     @count<br>
     <ul>
         @for(item <- items) {
-        <li>@item.getTitle() : @item.getPrice() EUR: @item.getLine1() : @item.getLine2(): @item.getLine3()</li>
-        <img src="@item.getImageUrl()" />
+            <li>@item.getTitle() : @item.getPrice() EUR: @item.getLine1() : @item.getLine2(): @item.getLine3()</li>
+            <img src="@item.getImageUrl()" />
         }
     </ul>
 }

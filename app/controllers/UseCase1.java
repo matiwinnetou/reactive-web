@@ -1,3 +1,10 @@
+/**
+ * Apache 2
+ * Copyright 2014 The Apache Software Foundation
+ *
+ * This product includes software developed at
+ * The Apache Software Foundation (http://www.apache.org/).
+ */
 package controllers;
 
 import play.libs.F;
@@ -15,11 +22,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class UseCase1 extends Controller {
 
+    /**
+     * produces two streams delayed hello and world respectively, composes those streams together and flushes to the
+     * browser one after another, i.e. first hello stream and then world stream.
+     *
+     * @return
+     */
     public static Result index() {
-        final HtmlStream stream1 = HtmlStream.apply(delayed("hello", 1));
-        final HtmlStream stream2 = HtmlStream.apply(delayed("world", 2));
+        final HtmlStream helloStream = HtmlStream.apply(delayed("hello", 1));
+        final HtmlStream worldStream = HtmlStream.apply(delayed("world", 2));
 
-        final HtmlStream composedStream = stream1.andThen(HtmlStream.apply(" ")).andThen(stream2);
+        final HtmlStream composedStream = helloStream.andThen(HtmlStream.apply(" ")).andThen(worldStream);
 
         return ok(composedStream.toChunks());
     }

@@ -163,7 +163,7 @@ object HtmlStreamFormat extends Format[HtmlStream] {
 
   def empty: HtmlStream = raw("")
 
-  def fill(elements: Seq[HtmlStream]): HtmlStream = elements.foldLeft(empty)((a,b) => a andThen b)
+  def fill(elements: Seq[HtmlStream]): HtmlStream = elements.foldLeft(empty)((a, b) => a.andThen(b))
 
 }
 

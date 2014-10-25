@@ -27,9 +27,8 @@ object Pagelet {
    * @param codec
    * @return
    */
-  def readBody(result: Result)(implicit codec: Codec): Future[Html] = {
-    result.body.run(Iteratee.consume()).map(bytes => Html(new String(bytes, codec.charset)))
-  }
+  def readBody(result: Result)(implicit codec: Codec): Future[Html] = result.body.run(Iteratee.consume())
+                                                                      .map(bytes => Html(new String(bytes, codec.charset)))
 
   /**
    * Merge all the cookies set in the given results into a single sequence.
@@ -37,9 +36,8 @@ object Pagelet {
    * @param results
    * @return
    */
-  def mergeCookies(results: Result*): Seq[Cookie] = {
-    results.flatMap(result => result.header.headers.get(HeaderNames.SET_COOKIE).map(Cookies.decode).getOrElse(Seq.empty))
-  }
+  def mergeCookies(results: Result*): Seq[Cookie] = results.flatMap(result => result.header.headers.get(HeaderNames.SET_COOKIE)
+                                                    .map(Cookies.decode).getOrElse(Seq.empty))
 
   /**
    * Wrap the given Html in a script tag that will inject the Html into the DOM node with the given id
@@ -48,9 +46,7 @@ object Pagelet {
    * @param id
    * @return
    */
-  def render(html: Html, id: String): Html = {
-    views.html.ui.pagelet(html, id)
-  }
+  def render(html: Html, id: String): Html = views.html.ui.pagelet(html, id)
 
   /**
    * Wrap the given Html in a script tag that will inject the Html into the DOM node with the given id. Returns an
@@ -60,9 +56,7 @@ object Pagelet {
    * @param id
    * @return
    */
-  def renderStream(html: Html, id: String): HtmlStream = {
-    HtmlStream(render(html, id))
-  }
+  def renderStream(html: Html, id: String): HtmlStream = HtmlStream(render(html, id))
 
   /**
    * Wrap the given Html in a script tag that will inject the Html into the DOM node with the given id. Returns an
@@ -72,9 +66,7 @@ object Pagelet {
    * @param id
    * @return
    */
-  def renderStream(htmlFuture: Future[Html], id: String): HtmlStream = {
-    HtmlStream.flatten(htmlFuture.map(html => renderStream(html, id)))
-  }
+  def renderStream(htmlFuture: Future[Html], id: String): HtmlStream = HtmlStream.flatten(htmlFuture.map(html => renderStream(html, id)))
 
   /**
    * Java API. Wrap the given Html in a script tag that will inject the Html into the DOM node with the given id.
@@ -84,9 +76,7 @@ object Pagelet {
    * @param id
    * @return
    */
-  def renderStream(htmlPromise: Promise[Html], id: String): HtmlStream = {
-    renderStream(htmlPromise.wrapped(), id)
-  }
+  def renderStream(htmlPromise: Promise[Html], id: String): HtmlStream = renderStream(htmlPromise.wrapped(), id)
 
   /**
    * Java API. Wrap the given Html in a script tag that will inject the Html into the DOM node with the given id.

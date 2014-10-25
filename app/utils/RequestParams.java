@@ -21,6 +21,13 @@ public class RequestParams {
     public static final String BIG_PIPE_QUERY_PARAMETER = "bigPipe";
     public static final String SERIAL_QUERY_PARAMETER = "serial";
 
+    /**
+     * A helper function that will check http params and headers to see if there is bigPipe and serial parameter present
+     *
+     * @param request
+     *
+     * @return PageRenderingMode
+     */
     public static PageRenderingMode getPageRenderingMode(final Http.Request request) {
         final Optional<String> bigPipeQueryParamOpt = ofNullable(request.getQueryString(BIG_PIPE_QUERY_PARAMETER));
         final Optional<String> bigPipeHeaderOpt = ofNullable(request.getHeader(BIG_PIPE_QUERY_PARAMETER));

@@ -1,3 +1,10 @@
+/**
+ * Apache 2
+ * Copyright 2014 The Apache Software Foundation
+ *
+ * This product includes software developed at
+ * The Apache Software Foundation (http://www.apache.org/).
+ */
 package controllers;
 
 import play.libs.F;
@@ -8,21 +15,33 @@ import utils.Promises;
 import java.util.concurrent.TimeUnit;
 
 /**
- * In this example we are invoking two fake services and are blocking until a response comes from both.
+ * In this example we are invoking two fake services and are 'blocking' web page load until a response comes from both.
  * We will return a response as fast as the slowest service invocation. This method uses pure http 1.0
- * and content-length is known at the beginning of the request from client point of view.
+ * and content-length is known at the beginning of the request from client's point of view.
  *
  * Created by Mateusz Szczap on 19/10/14.
  */
 public class UseCase0 extends Controller {
 
-    private static F.Promise<String> delayed(final String txt, final int delayInSecs) {
-        return F.Promise.timeout(txt, delayInSecs, TimeUnit.SECONDS);
+    /**
+     * returns delayed in seconds invocation based on type T
+     *
+     * @param t
+     * @param delayInSecs
+     * @return
+     */
+    private static <T> F.Promise<T> delayedInSecs(final T t, final int delayInSecs) {
+        return F.Promise.timeout(t, delayInSecs, TimeUnit.SECONDS);
     }
 
-    public static F.Promise <Result> index() {
-        final F.Promise<String> helloP = delayed("hello", 1);
-        final F.Promise<String> worldP = delayed("world", 2);
+    /**
+     * Return a promise of a result based on invocation of two 'fake time delayed services', each returning just a string
+     *
+     * @return
+     */
+    public static F.Promise<Result> index() {
+        final F.Promise<String> helloP = delayedInSecs("hello", 1);
+        final F.Promise<String> worldP = delayedInSecs("world", 2);
 
         return Promises.zip(helloP, worldP, (hello, world) -> String.format("%s %s", hello, world))
                 .map(str -> ok(str));
@@ -48,4 +67,3 @@ public class UseCase0 extends Controller {
 //real	0m2.016s
 //user	0m0.003s
 //sys	0m0.003s
-//Winnetou-iMac:~ mati$

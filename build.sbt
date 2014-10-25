@@ -1,12 +1,12 @@
-import play.PlayImport.PlayKeys._
 import play.PlayJava
+import play.twirl.sbt.Import.TwirlKeys
 import sbt.Keys._
 import sbt._
 import play.Play.autoImport._
 
 name := "reactive-web"
 
-version := "1.0-SNAPSHOT"  
+version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.10.4"
 
@@ -16,9 +16,8 @@ javacOptions ++= Seq("-target", "1.8", "-source", "1.8")
 
 scalacOptions += "-feature"
 
-play.twirl.sbt.Import.TwirlKeys.templateFormats ++= Map("stream" -> "ui.StreamFormat.instance")
+TwirlKeys.templateFormats ++= Map("stream" -> "ui.StreamFormat.instance")
 
-play.twirl.sbt.Import.TwirlKeys.templateImports ++= Vector("_root_.ui.HtmlStream", "_root_.ui.HtmlStream._")
+TwirlKeys.templateImports ++= Vector("_root_.ui.HtmlStream", "_root_.ui.HtmlStream._")
 
 libraryDependencies ++= Seq(javaWs)
-

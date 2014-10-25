@@ -1,3 +1,10 @@
+/**
+ * Apache 2
+ * Copyright 2014 The Apache Software Foundation
+ *
+ * This product includes software developed at
+ * The Apache Software Foundation (http://www.apache.org/).
+ */
 package pagelets;
 
 import domain.VehicleData;
@@ -9,7 +16,7 @@ import utils.FakeServiceClient;
 import utils.Promises;
 
 /**
- * Created by mati on 19/10/14.
+ * Created by Mateusz Szczap on 19/10/14.
  */
 public class ModelDescPagelet extends Controller {
 
