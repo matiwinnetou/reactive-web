@@ -1,5 +1,6 @@
 package pagelets;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -9,20 +10,20 @@ import java.util.List;
  */
 public class MiniSrpPageletModel {
 
-    public static MiniSrpPageletModel EMPTY = new MiniSrpPageletModel("", 0, Lists.newArrayList());
+    public static MiniSrpPageletModel EMPTY = new MiniSrpPageletModel("", 0, ImmutableList.of());
 
-    private String title = "";
+    private String title = "keine Ergebnisse gefunden!";
     private int count = 0;
     private List<Item> items = Lists.newArrayList();
 
-    public MiniSrpPageletModel(String title, int count, final List<Item> items) {
+    public MiniSrpPageletModel(final String title, final int count, final List<Item> items) {
         this.title = title;
         this.count = count;
         this.items = items;
     }
 
     public boolean isEnabled() {
-        return !title.equalsIgnoreCase("");
+        return !title.equalsIgnoreCase("") && count > 0;
     }
 
     public String getTitle() {
@@ -56,7 +57,7 @@ public class MiniSrpPageletModel {
         private String line3 = "";
         private String line4 = "";
 
-        public Item(String title, int price, String imageUrl, String line1, String line2, String line3, String line4) {
+        public Item(final String title, final int price, final String imageUrl, final String line1, final String line2, final String line3, final String line4) {
             this.title = title;
             this.price = price;
             this.imageUrl = imageUrl;

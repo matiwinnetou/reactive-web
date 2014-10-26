@@ -1,12 +1,22 @@
-/**
- * Apache 2
- * Copyright 2014 The Apache Software Foundation
+/*
+ * Copyright (c) 2014 Mateusz Szczap
  *
- * This product includes software developed at
- * The Apache Software Foundation (http://www.apache.org/).
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package domain;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -18,7 +28,7 @@ public class SearchResults {
 
     private String title = "";
     private int count = 0;
-    private List<Item> items = Lists.newArrayList();
+    private List<Item> items = ImmutableList.of();
 
     public SearchResults() {
     }
@@ -67,17 +77,17 @@ public class SearchResults {
         public Item() {
         }
 
-        public Item(String title,
-                    int price,
-                    String imageUrl,
-                    String countryCode,
-                    String postCode,
-                    String city,
-                    String firstReg,
-                    int mileage,
-                    int powerKw,
-                    float fuelConsumptionCombined,
-                    float co2Combined) {
+        public Item(final String title,
+                    final int price,
+                    final String imageUrl,
+                    final String countryCode,
+                    final String postCode,
+                    final String city,
+                    final String firstReg,
+                    final int mileage,
+                    final int powerKw,
+                    final float fuelConsumptionCombined,
+                    final float co2Combined) {
             this.title = title;
             this.price = price;
             this.imageUrl = imageUrl;

@@ -1,12 +1,22 @@
-/**
- * Apache 2
- * Copyright 2014 The Apache Software Foundation
+/*
+ * Copyright (c) 2014 Mateusz Szczap
  *
- * This product includes software developed at
- * The Apache Software Foundation (http://www.apache.org/).
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package controllers;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import pagelets.MiniSrpPagelet;
 import pagelets.ModelDescPagelet;
@@ -38,7 +48,7 @@ public class UseCase4 extends Controller {
             final HtmlStream modelDescPagelet = Pagelet.renderStream(modelDescStream, "modelDescP");
             final HtmlStream miniSrpPagelet = Pagelet.renderStream(miniSrpStream, "miniSrpP");
 
-            final HtmlStream bigPipe = HtmlStream.interleave(Lists.newArrayList(modelDescPagelet, miniSrpPagelet));
+            final HtmlStream bigPipe = HtmlStream.interleave(ImmutableList.of(modelDescPagelet, miniSrpPagelet));
 
             final HtmlStream out = (HtmlStream) views.stream.usecase4.render(HtmlStream.empty(), HtmlStream.empty(), bigPipe);
 
