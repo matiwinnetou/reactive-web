@@ -401,27 +401,71 @@
                 </section>
 
                 <section>
-                    <h2>But wait sites will be crawled by a bot - can a bot understand JavaScript?</h2>
-                    <p>At that time (March 2014) we didn't know, we assumed common knowledge - NO</p>
-                    <p>need to support for three rendering modes:</p>
+                    <h2>What about a bot?</h2>
                     <ul>
-                        <li>serial - request and response (http 1.0)</li>
-                        <li>chunked - streaming from top to bottom (http 1.1)</li>
-                        <li>BigPipe injecting pagelets via JavaScript into DOM</li>
+                        <li>will bot understand chunked with BigPipe (JavaScript)?</li>
+                        <li>we assumed common knowledge - NO</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="bot.jpg"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>At that time (March 2014) we didn't know, we assumed common knowledge - NO. Bot cannot understand JavaScript</li>
+                            <li>we could easily change the code to make any of these mode default</li>
+                            <li>Eventually we did a test and Google Bot can render our BigPipe version elegantly</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Need for three rendering modes:</h2>
+                    <ul>
+                        <ul>
+                            <li>serial</li>
+                            <li>chunked</li>
+                            <li>chunked with BigPipe</li>
+                        </ul>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>serial - request and response (http 1.0)</li>
+                            <li>chunked - streaming from top to bottom (http 1.1)</li>
+                            <li>BigPipe injecting pagelets via JavaScript into DOM</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Play 2.3.x framework - part 1</h2>
+                    <img height="50%" width="50%" src="play_framework.png"/>
+                    <ul>
+                        <li>Modern web framework</li>
+                        <li>supports FRP (Functional Reactive Programming)</li>
+                        <li>http 1.1 - chunked transfer encoding first class citizen</li>
+                        <li>increased developer productivity (CTRL + R) - page reload</li>
+                        <li>errors reported in a browser</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Play 2.3.x framework</h2>
+                    <h2>Play 2.3.x framework - part 2</h2>
                     <img height="50%" width="50%" src="play_framework.png"/>
                     <ul>
-                        <li>implementation of reactive programming - FRP (Functional Reactive Programming)</li>
-                        <li>http 1.1 - chunked transfer encoding first class citizen</li>
-                        <li>increased developer productivity (CTRL + R) - page reload</li>
-                        <li>errors reported in a browser</li>
                         <li>build for performance and scalability</li>
                         <li>ability to support three rendering modes</li>
                         <li>best for technical requirements we had</li>
+                        <li>easy to plug another template library - google closure templates (soy)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>But wait... have you forgotten AJAX?</h2>
+                    <img src="ajax_wash.png"/>
+                    <ul>
+                        <li>an option but slow</li>
+                        <li>browser fires multiple concurrent http requests</li>
+                        <li>http 2.0 may be a game changer</li>
                     </ul>
                 </section>
 
@@ -431,33 +475,70 @@
                 </section>
 
                 <section>
-                    <h2>Gibralrar project learnings - part 1:</h2>
+                    <h2>Gibraltar project learnings - part 1:</h2>
                     <ul>
-                        <li>latest Google Bot is able to understand at least simple JavaScript, other bots unclear</li>
-                        <li>BigPipe - hard to do this right for users, pagelets flickering</li>
-                        <li>today's routers optimized for http request and response (http 1.0) - magic citrix (NetScaler) setting - httpcompressionpush=1</li>
+                        <li>Google Bot can crawl BigPipe version</li>
+                        <li>BigPipe mode not user friendly</li>
+                        <li>today's routers optimized for http 1.0</li>
+                        <li>not everything with graceful fallback - usually one critical call</li>
                     </ul>
+                    <br>
+                    <br>
+                    <img width="50%" height="50%" src="bot_pipe.jpg"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>latest Google Bot is able to understand at least simple JavaScript, other bots unclear</li>
+                            <li>BigPipe - hard to do this right for users, pagelets flickering while they start reading</li>
+                            <li>today's routers optimized for http request and response (http 1.0) - magic citrix (NetScaler) setting - httpcompressionpush=1. It is not even doing early flush if badly configured.</li>
+                            <li>not everything with graceful fallback - usually one critical call</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
-                    <h2>Gibralrar project learnings - part 2:</h2>
+                    <h2>Gibraltar project learnings - part 2:</h2>
                     <ul>
-                        <li>monitoring web service calls important - problem may not be in the place where you thought - used Netflix Hystrix</li>
-                        <li>possible to use Play with Java but not always idiomatic</li>
-                        <li>Play's library - enumerators and iteratees hard to grok, RxJava and Observable may be better for Play Java</li>
+                        <li>once flushed response with http code 200 that's it</li>
+                        <li>Play is stable but... breaking changes appear</li>
+                        <li>Play Java not always idiomatic</li>
+                        <li>Play's enumerators and iteratees hard to grok</li>
                     </ul>
+                    <br>
+                    <br>
+                    <img src="iteratees-diagram-med.png"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Impossible to return status code other than 200 once streaming, it is possible to inject JavaScript, which will redirect a user to error page</li>
+                            <li>Play is stable but... API breaking changes every two releases</li>
+                            <li>Play Java not always idiomatic, don't use any other version than Java 8</li>
+                            <li>Play's enumerators and iteratees hard to grok, RxJava and Observable may be better for Play Java</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
-                    <h2>Gibralrar project learnings - part 3:</h2>
+                    <h2>Gibraltar project learnings - part 3:</h2>
                     <ul>
                         <li>Sbt - play's (simple build tool) actually has steep learning curve</li>
-                        <li>Play is stable but changes (API breaking changes every two releases)</li>
+                        <li>need to monitor web service calls important</li>
+                        <li>intermediate level of functional programming needed</li>
+                        <li>async programming scalable but more difficult</li>
                     </ul>
+                    <br>
+                    <br>
+                    <img src="lambda.png"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Sbt - play's (simple build tool) actually has steep learning curve</li>
+                            <li>need to monitor web service calls important - problem may not be in the place where you thought - used Netflix Hystrix</li>
+                            <li>intermediate level of functional programming needed</li>
+                            <li>async programming scalable but more difficult</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
-                    <h2>Learning resources</h2>
+                    <h2>Learning resources - part 1</h2>
                     <ul>
                         <li>Netflix Reactive Extensions - <a href="http://reactivex.io/">http://reactivex.io/</a></li>
                     </ul>
@@ -465,7 +546,7 @@
                 </section>
 
                 <section>
-                    <h2>Learning resources</h2>
+                    <h2>Learning resources - part 2</h2>
                     <ul>
                         <li><a href="http://www.ustream.tv/recorded/42801129">http://www.ustream.tv/recorded/42801129</a></li>
                     </ul>
@@ -476,7 +557,7 @@
                 </section>
 
                 <section>
-                    <h2>Learning resources</h2>
+                    <h2>Learning resources -  part 3</h2>
                     <ul>
                         <li>Coursea's Principles of Reactive Programming</li>
                     </ul>
@@ -484,7 +565,7 @@
                 </section>
 
                 <section>
-                    <h2>Learning resources</h2>
+                    <h2>Learning resources - part 4</h2>
                     <ul>
                         <li><a href="https://www.playframework.com/">https://www.playframework.com/</a></li>
                     </ul>
@@ -512,6 +593,7 @@
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
+                history: true,
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 

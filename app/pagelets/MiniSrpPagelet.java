@@ -31,32 +31,42 @@ import java.util.stream.Collectors;
 public class MiniSrpPagelet extends Controller {
 
     /**
-     * Creates a promise of a MiniSrpPageletModel
+     * Invokes a fake service to return search results and creates a promise of MiniSrpPageletModel
      */
     public static F.Promise<MiniSrpPageletModel> createModel(final int searchDelayedInSecs, final boolean boom) {
         //invoke a fake client to get search results for vehicle id = 1 and searchDelayedInSecs and boom (exception)
-        return FakeServiceClient.callSearchResults(1, searchDelayedInSecs, boom)
-                .map(r -> new MiniSrpPageletModel(r.getTitle(), r.getCount(), convert(r.getItems())));
+        return FakeServiceClient
+                .callSearchResults(1, searchDelayedInSecs, boom)
+                .map(r -> new MiniSrpPageletModel(r.getTitle(), r.getCount(), convertItems(r.getItems())));
     }
 
-    private static List<MiniSrpPageletModel.Item> convert(final List<SearchResults.Item> items) {
-        return items.stream().map(item -> {
-            final String title = item.getTitle();
-            final int price = item.getPrice();
-            final String imageUrl = item.getImageUrl();
-            final String line1 = String.format("%s %s", item.getPostCode(), item.getCity());
-            final String line2 = String.format("%s, %d", item.getFirstReg(), item.getMileage());
-            final String line3 = String.format("%d kW (%d PS)", item.getPowerKw(), kwToHp(item.getPowerKw()));
+    /**
+     * Converts from search results specific items to MiniSrp items
+     */
+    private static List<MiniSrpPageletModel.Item> convertItems(final List<SearchResults.Item> items) {
+        return items.stream().map(item -> convertItem(item)).collect(Collectors.toList());
+    }
 
-            return new MiniSrpPageletModel.Item(title, price, imageUrl, line1, line2, line3, "");
-        }).collect(Collectors.toList());
+    /**
+     * Converts from one item format to another
+     */
+    private static MiniSrpPageletModel.Item convertItem(final SearchResults.Item item) {
+        final String title = item.getTitle();
+        final int price = item.getPrice();
+        final String imageUrl = item.getImageUrl();
+        final String line1 = String.format("%s %s", item.getPostCode(), item.getCity());
+        final String line2 = String.format("%s, %d", item.getFirstReg(), item.getMileage());
+        final String line3 = String.format("%d kW (%d PS)", item.getPowerKw(), kwToHp(item.getPowerKw()));
+
+        return new MiniSrpPageletModel.Item(title, price, imageUrl, line1, line2, line3, "");
     }
 
     /**
      * Returns a html stream representation of MiniSrp pagelet
      */
     public static HtmlStream stream(final int searchDelayedInSecs, final boolean boom) {
-        return HtmlStream.apply(createModel(searchDelayedInSecs, boom)
+        return HtmlStream
+                .apply(createModel(searchDelayedInSecs, boom)
                 .map(m -> miniSrpPagelet.render(m.isEnabled(), m.getTitle(), m.getCount(), m.getItems())));
     }
 
