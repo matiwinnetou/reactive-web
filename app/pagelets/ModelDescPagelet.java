@@ -26,13 +26,15 @@ public class ModelDescPagelet extends Controller {
         final F.Promise<VehicleData> vehicleDataP = FakeServiceClient.callVehicleData(vehicleDataCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
         final F.Promise<VehicleImage> vehicleImageP = FakeServiceClient.callVehicleImage(vehicleImageCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
 
-        return Promises.zip(vehicleDataP, vehicleImageP, (vehicleData, vehicleImage) -> {
-            final String title = String.format("%s %s %s", vehicleData.getMake(), vehicleData.getModel(), vehicleData.getVariant());
-            final String imageUrl = vehicleImage.getImageUrl();
-            final String modelDesc = vehicleData.getModelDescription();
+        return Promises.zip(vehicleDataP, vehicleImageP, (vehicleData, vehicleImage) -> createModel2(vehicleData, vehicleImage));
+    }
 
-            return new ModelDescPageletModel(title, imageUrl, modelDesc);
-        });
+    private static ModelDescPageletModel createModel2(final VehicleData vehicleData, final VehicleImage vehicleImage) {
+        final String title = String.format("%s %s %s", vehicleData.getMake(), vehicleData.getModel(), vehicleData.getVariant());
+        final String imageUrl = vehicleImage.getImageUrl();
+        final String modelDesc = vehicleData.getModelDescription();
+
+        return new ModelDescPageletModel(title, imageUrl, modelDesc);
     }
 
     public static HtmlStream stream(final int vehicleDataCallDelayedInSecs,

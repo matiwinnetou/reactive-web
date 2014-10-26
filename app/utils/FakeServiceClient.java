@@ -16,6 +16,9 @@ import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
+/**
+ * Created by Mateusz Szczap on 19/10/14.
+ */
 public class FakeServiceClient {
 
     public static F.Promise<SearchResults> callSearchResults(final int vehicleId, final int secsDelayed, boolean boom) {
