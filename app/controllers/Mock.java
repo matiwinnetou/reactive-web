@@ -17,6 +17,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import domain.SearchResults;
 import domain.VehicleData;
 import domain.VehicleImage;
@@ -42,6 +43,10 @@ public class Mock extends Controller {
 
         if (boom) {
             return F.Promise.throwing(new RuntimeException("boom!!!"));
+        }
+
+        if (vehicleId != 1) {
+            return F.Promise.pure(notFound(Json.toJson(ImmutableMap.of("error", "content not found!"))));
         }
 
         switch(serviceName) {

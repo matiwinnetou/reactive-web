@@ -23,7 +23,7 @@ public class MiniSrpPageletModel {
     }
 
     public boolean isEnabled() {
-        return !title.equalsIgnoreCase("") && count > 0;
+        return !title.equalsIgnoreCase("");
     }
 
     public String getTitle() {

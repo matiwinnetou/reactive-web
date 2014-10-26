@@ -11,15 +11,15 @@ GET        /usecase0                            controllers.UseCase0.index()
 GET        /usecase1a                           controllers.UseCase1.index_a()
 GET        /usecase1b                           controllers.UseCase1.index_b()
 
-GET        /usecase2a                           controllers.UseCase2.index_a()
-GET        /usecase2b                           controllers.UseCase2.index_b()
+GET        /usecase2a/:vehicleId                controllers.UseCase2.index_a(vehicleId: Int)
+GET        /usecase2b/:vehicleId                controllers.UseCase2.index_b(vehicleId: Int)
 
-GET        /usecase3                            controllers.UseCase3.index()
+GET        /usecase3/:vehicleId                 controllers.UseCase3.index(vehicleId: Int)
 
-GET        /usecase4                            controllers.UseCase4.index()
+GET        /usecase4/:vehicleId                 controllers.UseCase4.index(vehicleId: Int)
 
-GET        /usecase5a                            controllers.UseCase5.index_a()
-GET        /usecase5b                            controllers.UseCase5.index_b()
+GET        /usecase5a/:vehicleId                controllers.UseCase5.index_a(vehicleId: Int)
+GET        /usecase5b/:vehicleId                controllers.UseCase5.index_b(vehicleId: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                        controllers.Assets.at(path="/public", file)

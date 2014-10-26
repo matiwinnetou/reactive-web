@@ -231,12 +231,15 @@
 
                 <section>
                     <h2>long tail latency - Netflix Hystrix: example call</h2>
-                    <img width="50%" height="50%" src="exponential.png">
                     <ul>
-                        <li>many services - high long tail probability</li>
-                        <li>user should not wait</li>
+                        <li>many services - long tail probability</li>
+                        <li>ideally a user should not wait</li>
                         <li>~99 percentile of calls has exponential latency</li>
                     </ul>
+                    <br>
+                    <br>
+                    <img width="50%" height="50%" src="exponential.png">
+                    <img width="40%" height="40%" src="hystrix_latency.png">
                     <aside class="notes">
                         <ul>
                             <li>many services - high long tail probability</li>

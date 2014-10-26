@@ -31,9 +31,9 @@ public class UseCase2 extends Controller {
     /**
      * Streaming best case scenario, model description pagelet responds and is flushed, then MiniSrp is flushed
      */
-    public static Result index_a() {
-        final HtmlStream modelDesc = ModelDescPagelet.stream(1, 1, false);
-        final HtmlStream miniSrp = MiniSrpPagelet.stream(3, false);
+    public static Result index_a(final int vehicleId) {
+        final HtmlStream modelDesc = ModelDescPagelet.stream(vehicleId, 0, 0, false);
+        final HtmlStream miniSrp = MiniSrpPagelet.stream(vehicleId, 3, false);
 
         final HtmlStream stream = (HtmlStream) views.stream.usecase2.render(modelDesc, miniSrp);
 
@@ -44,9 +44,9 @@ public class UseCase2 extends Controller {
      * Streaming worst case scenario, ModelDescription pagelet responds late and CANNOT be flushed, MiniSrp is flushed late
      * even though it could be flushed earlier since web service responded very fast
      */
-    public static Result index_b() {
-        final HtmlStream modelDesc = ModelDescPagelet.stream(1, 1, false);
-        final HtmlStream miniSrp = MiniSrpPagelet.stream(0, false);
+    public static Result index_b(final int vehicleId) {
+        final HtmlStream modelDesc = ModelDescPagelet.stream(vehicleId, 2, 2, false);
+        final HtmlStream miniSrp = MiniSrpPagelet.stream(vehicleId, 0, false);
 
         final HtmlStream stream = (HtmlStream) views.stream.usecase2.render(modelDesc, miniSrp);
 

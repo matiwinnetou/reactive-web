@@ -24,16 +24,19 @@ import ui.HtmlStream;
 import utils.FakeServiceClient;
 import utils.Promises;
 
+import static views.html.modelDescPagelet.render;
+
 /**
  * Created by Mateusz Szczap on 19/10/14.
  */
 public class ModelDescPagelet extends Controller {
 
-    public static F.Promise<ModelDescPageletModel> createModel(final int vehicleDataCallDelayedInSecs,
+    public static F.Promise<ModelDescPageletModel> createModel(final int vehicleId,
+                                                               final int vehicleDataCallDelayedInSecs,
                                                                final int vehicleImageCallDelayedInSecs,
                                                                final boolean boom) {
-        final F.Promise<VehicleData> vehicleDataP = FakeServiceClient.callVehicleData(vehicleDataCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
-        final F.Promise<VehicleImage> vehicleImageP = FakeServiceClient.callVehicleImage(vehicleImageCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
+        final F.Promise<VehicleData> vehicleDataP = FakeServiceClient.callVehicleData(vehicleId, vehicleDataCallDelayedInSecs, boom);
+        final F.Promise<VehicleImage> vehicleImageP = FakeServiceClient.callVehicleImage(vehicleId, vehicleImageCallDelayedInSecs, boom);
 
         return Promises.zip(vehicleDataP, vehicleImageP, (vehicleData, vehicleImage) -> createModel2(vehicleData, vehicleImage));
     }
@@ -46,12 +49,13 @@ public class ModelDescPagelet extends Controller {
         return new ModelDescPageletModel(title, imageUrl, modelDesc);
     }
 
-    public static HtmlStream stream(final int vehicleDataCallDelayedInSecs,
+    public static HtmlStream stream(final int vehicleId,
+                                    final int vehicleDataCallDelayedInSecs,
                                     final int vehicleImageCallDelayedInSecs,
                                     final boolean boom) {
-        final F.Promise<ModelDescPageletModel> miniSrpModelP = createModel(vehicleDataCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
+        final F.Promise<ModelDescPageletModel> miniSrpModelP = createModel(vehicleId, vehicleDataCallDelayedInSecs, vehicleImageCallDelayedInSecs, boom);
 
-        return HtmlStream.apply(miniSrpModelP.map(m -> views.html.modelDescPagelet.render(m.isEnabled(), m.getTitle(), m.getImageUrl(), m.getModelDescription())));
+        return HtmlStream.apply(miniSrpModelP.map(m -> render(m.isEnabled(), m.getTitle(), m.getImageUrl(), m.getModelDescription())));
     }
 
 }

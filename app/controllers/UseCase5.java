@@ -33,9 +33,9 @@ public class UseCase5 extends Controller {
     /**
      * Reactive fallback - timeout case
      */
-    public static F.Promise<Result> index_a() {
-        final HtmlStream modelDescStream = ModelDescPagelet.stream(1, 0, false);
-        final HtmlStream miniSrpStream = MiniSrpPagelet.stream(15, false);
+    public static F.Promise<Result> index_a(final int vehicleId) {
+        final HtmlStream modelDescStream = ModelDescPagelet.stream(vehicleId, 1, 0, false);
+        final HtmlStream miniSrpStream = MiniSrpPagelet.stream(vehicleId, 15, false);
 
         final HtmlStream stream = (HtmlStream) views.stream.usecase5.render(modelDescStream, miniSrpStream);
 
@@ -45,9 +45,9 @@ public class UseCase5 extends Controller {
     /**
      * Reactive fallback - exception case
      */
-    public static F.Promise<Result> index_b() {
-        final HtmlStream modelDescStream = ModelDescPagelet.stream(1, 0, false);
-        final HtmlStream miniSrpStream = MiniSrpPagelet.stream(1, true);
+    public static F.Promise<Result> index_b(final int vehicleId) {
+        final HtmlStream modelDescStream = ModelDescPagelet.stream(vehicleId, 1, 0, false);
+        final HtmlStream miniSrpStream = MiniSrpPagelet.stream(vehicleId, 1, true);
 
         final HtmlStream stream = (HtmlStream) views.stream.usecase5.render(modelDescStream, miniSrpStream);
 
