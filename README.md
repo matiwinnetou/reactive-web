@@ -5,7 +5,7 @@ DEMO application with play framework and facebook's BigPipe with slides
 
 # Running DEMO (Mac Osx)
 * install Java 8 (brew cask install java)
-* instlal sbt (brew install sbt)
+* install sbt (brew install sbt)
 * git clone https://github.com/matiwinnetou/reactive-web
 * cd reactive-web
 * sbt run
