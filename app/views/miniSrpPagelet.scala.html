@@ -1,14 +1,46 @@
 @(isEnabled: java.lang.Boolean, title: java.lang.String, count: java.lang.Integer, items: java.util.List[pagelets.MiniSrpPageletModel.Item])
 
 @if(isEnabled.booleanValue()) {
-    <h2>MiniSRP</h2>
-    <br>
-    @title<br>
-    @count<br>
-    <ul>
-        @for(item <- items) {
-            <li>@item.getTitle() : @item.getPrice() EUR: @item.getLine1() : @item.getLine2(): @item.getLine3()</li>
-            <img src="@item.getImageUrl()" />
-        }
-    </ul>
+    <div class="box-wrapper result-list">
+        <div class="box-header">
+            <h2 class="title"><span class="numberOfResults">@count</span> ANGEBOTE FÜR @title GEBRAUCHT ODER NEU</h2>
+        </div>
+
+        <div class="box-header-border"></div>
+        <div class="box-body result-items">
+            @for(item <- items) {
+            <article class="result-item">
+                <a href="#">
+                    <div class="thumb">
+                        <img class="img-responsive" src="@item.getImageUrl()" border="0" alt="@item.getTitle()">
+                    </div>
+                    <div class="vehicle-data">
+                        <span class="item-title">@item.getTitle()</span>
+                        <span class="item-price">@item.getPrice()</span>
+                        <div class="vehicle-information">
+                            <ul class="info-box-first">
+                                <li class="display-type">@item.getLine1()</li>
+                                <li class="display-type">@item.getLine2()</li>
+                                <li class="display-type">@item.getLine3()</li>
+                            </ul>
+                            <ul class="info-box-second">
+                                <li class="display-type">≈ 5,3 l/100km (komb.), ≈ 140 g CO₂/km (komb.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            <hr/>
+            }
+        </div>
+        <div class="box-header-border"></div>
+        <div class="box-body to-grey">
+            <a class="btn btn-info icon-common" href="#">Mehr Angebote Ford Focus zeigen</a>
+        </div>
+    </div>
+    <div class="box-wrapper envkvInfo">
+        <div class="box-body">
+            <p class="smallgrey">* Weitere Informationen zum offiziellen Kraftstoffverbrauch und zu den offiziellen spezifischen CO2-Emissionen und gegebenenfalls zum Stromverbrauch neuer PKW können dem 'Leitfaden über den offiziellen Kraftstoffverbrauch, die offiziellen spezifischen CO2-Emissionen und den offiziellen Stromverbrauch neuer PKW' entnommen werden, der an allen Verkaufsstellen und bei der 'Deutschen Automobil Treuhand GmbH' unentgeltlich erhältlich ist unter <a href="http://www.dat.de" target="_blank">www.dat.de</a>.</p>
+        </div>
+    </div>
 }
