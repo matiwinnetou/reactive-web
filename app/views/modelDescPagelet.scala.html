@@ -1,10 +1,28 @@
 @(isEnabled: java.lang.Boolean, title: java.lang.String, imageUrl: java.lang.String, modelDesc: java.lang.String)
 
 @if(isEnabled.booleanValue()) {
-    <h2>ModelDescription Pagelet</h2>
-    <br>
-    @title<br>
-    <img src="@imageUrl"/><br>
-    <br>
-    @modelDesc<br>
+    <div class="box-wrapper modeldescription">
+        <div class="box-header">
+            <h1 class="title">@title</h1>
+        </div>
+        <div class="box-body description">
+            <a class="thumb" href="@imageUrl">
+                <div class="thumbnail">
+                    <img alt="@title" title="@title" src="@imageUrl">
+                    <div class="caption">@title</div>
+                    <hr class="caption-separator">
+                </div>
+            </a>
+            <h2>Ford Focus</h2>
+            <div class="contentColumn contentPageSpecial">
+                <div class="default-paragraph ">
+                    <p>@modelDesc</p>
+                </div>
+            </div>
+        </div>
+        <div class="box-header-border"></div>
+        <div class="box-body to-grey show-more">
+            <button class="btn btn-info icon-common btn-show-more">Mehr anzeigen</button>
+        </div>
+    </div>
 }
