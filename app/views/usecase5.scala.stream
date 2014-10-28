@@ -2,10 +2,24 @@
 
 <html>
     <head>
+        <link rel="stylesheet" href="/assets/stylesheets/screen.css"/>
     </head>
     <body>
-        @modelDescPagelet
-        <hr>
-        @miniSrpPagelet
+        <div class="l-viewport" id="page">
+            <div class="content" id="mainP" style="min-height:1000px;">
+                <div class="alpha">
+                    <div id="modelDescP">
+                        @modelDescPagelet
+                    </div>
+
+                    <div id="miniSrpP">
+                        @miniSrpPagelet
+                    </div>
+                </div>
+                <div class="omega">
+
+                </div>
+            </div>
+        </div>
     </body>
 </html>
