@@ -21,7 +21,7 @@ package pagelets;
  */
 public class ModelDescPageletModel {
 
-    private String title = "keine Daten";
+    private String title = "";
     private String imageUrl = "";
     private String modelDescription = "";
 

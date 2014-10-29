@@ -33,7 +33,7 @@ public class FakeServiceClient {
         return wsCallGet("searchResults", vehicleId, secsDelayed, boom)
                 .map(response -> response.getBody())
                 .map(str -> Json.fromJson(Json.parse(str), SearchResults.class))
-                .recover(t -> new SearchResults("keine Ergebnisse gefunden!", 0, ImmutableList.of()));
+                .recover(t -> new SearchResults("", 0, ImmutableList.of()));
     }
 
     public static F.Promise<VehicleData> callVehicleData(final int vehicleId, final int secsDelayed, boolean boom) {

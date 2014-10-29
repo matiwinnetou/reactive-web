@@ -12,7 +12,7 @@ public class MiniSrpPageletModel {
 
     public static MiniSrpPageletModel EMPTY = new MiniSrpPageletModel("", 0, ImmutableList.of());
 
-    private String title = "keine Ergebnisse gefunden!";
+    private String title = "";
     private int count = 0;
     private List<Item> items = Lists.newArrayList();
 
