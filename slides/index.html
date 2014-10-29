@@ -38,12 +38,6 @@
 
 	<body>
 
-    <div id="myLogo" style="background: url('ebay_logo.svg');
-                        position: absolute;
-                        bottom: 100px;
-                        right: 10px;
-                        width: 300px;
-                        height: 120px;"></div>
 		<div class="reveal">
 
 			<div class="slides">
@@ -56,6 +50,7 @@
                             <small>Twitter:&nbsp;<a href="http://twitter.com/matiwinnetou">@matiwinnetou</a></small><br>
                             <small>mobile.de - eBay Inc. subsidiary</small><br>
                         </p>
+                    <img height="20%" width="20%" src="Mobile.de-logo.jpg" />
 				</section>
 
 				<section>
@@ -68,7 +63,7 @@
                         <li>completed Coursea's Principles of Reactive Programming</li>
                         <li>fan of blend of functional and OOP programming</li>
                         <li>fan of reactive programming</li>
-                        <li>fan of scala, recently rust and google go</li>
+                        <li>fan of scala, recently Mozilla rust and Google Go</li>
                     </ul>
 				</section>
 
@@ -93,7 +88,7 @@
                     <ul>
                         <li>optimize for mobile, tablet and desktop</li>
                         <li>SEO friendly, i.e. bots crawlable</li>
-                        <li>increase maintainability - no mega big controllers</li>
+                        <li>increase maintainability (SRP - Single Responsibility Principle)</li>
                         <li>improve page load time</li>
                         <li>increase developer's productivity</li>
                     </ul>
@@ -139,7 +134,7 @@
                 </section>
 
                 <section>
-                    <h2>Gibraltar - technical backend stack - MVC</h2>
+                    <h2>mobile.de existing backend stack - MVC</h2>
                     <p>Spring MVC - very popular at mobile.de</p>
                     <p>
                     <img src="spring_mvc.png"/>
@@ -174,7 +169,7 @@
                         <li>first encounter with async programming</li>
                         <li>FRP (Functional Reactive Programming) is easier to reason about but...</li>
                     </ul>
-                    <img src="callback_hell.jpg"/>
+                    <img src="call_back_hell.png"/>
                     <br>
                     <br>
                     <aside class="notes">
@@ -277,13 +272,13 @@
                         <li>serially invoking services - bad performance</li>
                         <li>Scatter / Gather pattern (fan out, fan in) - better but not ideal</li>
                         <li>Future get method blocks JVM thread - 2MB heap cost</li>
-                        <li>os threads are limited: ~1000 for physical machine</li>
+                        <li>os threads are somewhat limited</li>
                     </ul>
                     <aside class="notes">
                         <ul>
                             <li>serially invoking services (one by one) - not an option - bad performance</li>
                             <li>Scatter / Gather pattern (fan out, fan in) - improvement but still framework not made for early flushing</li>
-                            <li>Future get method blocks JVM thread - about 2 MB heap cost</li>
+                            <li>Future get method blocks JVM thread - about 2 MB heap cost, this can lead to frequent GC cycles or long GC cycles if memory above 2GB (long time to do GC for heap)</li>
                             <li>os threads are limited - not very scalable - need many machines or VMs. In Java thread uses an expensive OS thread</li>
                         </ul>
                     </aside>
@@ -391,11 +386,19 @@
                     <h2>Facebook's BigPipe - advantages</h2>
                     <ul>
                         <li>site speed - stream pagelets early</li>
-                        <li>reusable components and no God-alike MVC controllers - increased maintability</li>
+                        <li>reusable components - increased maintability</li>
+                        <li>ideal for social networks sites when content changes frequently</li>
                     </ul>
                     <br>
                     <br>
                     <img width="30%" height="30%" src="big_pipe.jpg">
+                    <aside class="notes">
+                        <ul>
+                            <li>site speed - stream pagelets early</li>
+                            <li>reusable components - increased maintability</li>
+                            <li>ideal for social networks sites when content changes frequently, this is still generic model that can be applied anywhere</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -505,7 +508,7 @@
                         <li>once flushed response with http code 200 that's it</li>
                         <li>Play is stable but... breaking changes appear</li>
                         <li>Play Java not always idiomatic</li>
-                        <li>Play's enumerators and iteratees hard to grok</li>
+                        <li>Play's enumerators and iteratees hard to comprehend</li>
                     </ul>
                     <br>
                     <br>
@@ -514,8 +517,8 @@
                         <ul>
                             <li>Impossible to return status code other than 200 once streaming, it is possible to inject JavaScript, which will redirect a user to error page</li>
                             <li>Play is stable but... API breaking changes every two releases</li>
-                            <li>Play Java not always idiomatic, don't use any other version than Java 8</li>
-                            <li>Play's enumerators and iteratees hard to grok, RxJava and Observable may be better for Play Java</li>
+                            <li>Play Java not always idiomatic, don't use any other version than Java 8, use Play Scala if you can</li>
+                            <li>Play's enumerators and iteratees hard to comprehend, RxJava and Observable may be better for Play Java, i.e. more idiomatic</li>
                         </ul>
                     </aside>
                 </section>
