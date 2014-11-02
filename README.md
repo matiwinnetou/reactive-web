@@ -11,8 +11,8 @@ $(boot2docker shellinit)
 ```
 then using docker:
 ```
-docker run -d matiwinnetou/reactive-web-slides
-docker run -d matiwinnetou/reactive-web-server
+docker run -ti --rm matiwinnetou/reactive-web-slides
+docker run -ti --rm matiwinnetou/reactive-web-server
 ```
 
 find out your docker ip using:
@@ -30,8 +30,8 @@ http://$IP:9000
 
 ### Docker for linux
 ```
-docker run -d matiwinnetou/reactive-web-slides
-docker run -d matiwinnetou/reactive-web-server
+docker run -ti --rm matiwinnetou/reactive-web-slides
+docker run -ti --rm matiwinnetou/reactive-web-server
 ```
 
 For slides navigate to:
