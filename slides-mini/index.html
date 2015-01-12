@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Reactive Web with play framework</title>
+
+		<meta name="description" content="Reactive Web with play framework">
+		<meta name="author" content="Mateusz Szczap">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>Reactive Web</h1>
+					<h3>with Play framework and Facebook's BigPipe</h3>
+    					<p>
+                            <small>Mateusz Szczap</small><br>
+                            <small>Email:&nbsp;<a href="emailto:mszczap@ebay.com">mszczap@ebay.com</a></small><br>
+                            <small>Twitter:&nbsp;<a href="http://twitter.com/matiwinnetou">@matiwinnetou</a></small><br>
+                            <small>mobile.de - eBay Inc. subsidiary</small><br>
+                        </p>
+                    <img height="20%" width="20%" src="Mobile.de-logo.jpg" />
+				</section>
+
+				<section>
+					<h2>Speaker</h2>
+                    <ul>
+                        <li>a backend developer</li>
+                        <li>over 10 years of experience</li>
+                        <li>worked over 2,5 years for mobile.de (eBay Inc company)</li>
+                        <li>completed Coursea's Functional Programming Principles in Scala</li>
+                        <li>completed Coursea's Principles of Reactive Programming</li>
+                        <li>fan of blend of functional and OOP programming</li>
+                        <li>fan of reactive programming</li>
+                        <li>fan of scala, recently Mozilla rust and Google Go</li>
+                    </ul>
+				</section>
+
+                <section>
+                    <h2>Gibraltar project</h2>
+                    <p>Model catalog (Modellverzeichnis) - informational pages about various makes, models and variants.</p>
+                    <img src="mobile_model_verzeichnis.png"/>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project - business goals:</h2>
+                    <ul>
+                        <li>reduce bounce rate on mobile</li>
+                        <li>increase value per visit</li>
+                    </ul>
+                    <img width="50%" height="50%" src="mobile-bounce-graphic.jpg"/>
+                    <img width="50%" height="50%" src="mobile-bounce-rate-site-not-optimized.gif"/>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project - technical goals 1:</h2>
+                    <ul>
+                        <li>optimize for mobile, tablet and desktop</li>
+                        <li>SEO friendly, i.e. bots crawlable</li>
+                        <li>increase maintainability (SRP - Single Responsibility Principle)</li>
+                        <li>improve page load time</li>
+                        <li>increase developer's productivity</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="bots_crawlable.jpg"/>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project - technical goals 2:</h2>
+                    <ul>
+                        <li>no direct DB access</li>
+                        <li>piggy back on existing web services</li>
+                        <li>write new services</li>
+                        <li>graceful fallback in case of failure</li>
+                        <li>prototype a more generic solution for other teams</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <aside class="notes">
+                        <ul>
+                            <li>no direct DB access</li>
+                            <li>piggy back on existing web services</li>
+                            <li>write new services - split responsibility across many web services</li>
+                            <li>in case of failure - graceful fallback - no http 500 please</li>
+                            <li>prototype a more generic solution for upcoming new web projects</li>
+                        </ul>
+                    </aside>
+                    <img width="70%" height="70%" src="distributed.jpg">
+                </section>
+
+                <section>
+                    <h2>mobile.de existing backend stack - MVC</h2>
+                    <p>Spring MVC - very popular at mobile.de</p>
+                    <p>
+                    <img src="spring_mvc.png"/>
+                    </p>
+                    <p>but is this the right solution to address those technical requirements?</p>
+                </section>
+
+                <section>
+                    <h2>Http Protocol - recap</h2>
+                    <ul>
+                        <li>http 1.0 - classical request / response semantics</li>
+                        <li>http 1.1 - chunking http responses</li>
+                        <li>http 2.0 - multiplexing many connection in one (coming soon)</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>http 1.0 - classical request / response semantics</li>
+                            <li>http 1.1 - chunking http responses - flushing chunk by chunk (http://en.wikipedia.org/wiki/Chunked_transfer_encoding)</li>
+                            <li>http 2.0 - multiplexing many connection in one (coming soon)</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Distributed Architectures - the ugly:</h2>
+                    <ul>
+                        <li>one of web services may be down</li>
+                        <li>failure in a distributed system - a norm</li>
+                        <li>network latency has a long tail distribution</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="internal_server_error.jpg"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>one of web services may be down - ideally need to fallback, no 500 http error</li>
+                            <li>failure in a distributed system - a norm</li>
+                            <li>network latency has long tail distribution</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>long tail latency - Netflix Hystrix: example call</h2>
+                    <ul>
+                        <li>many services - long tail probability</li>
+                        <li>ideally a user should not wait</li>
+                        <li>~99 percentile of calls has exponential latency</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img width="50%" height="50%" src="exponential.png">
+                    <img width="40%" height="40%" src="hystrix_latency.png">
+                    <aside class="notes">
+                        <ul>
+                            <li>many services - high long tail probability</li>
+                            <li>user should not wait - do we want for a user to wait as long as longest service call response?</li>
+                            <li>~99 percentile of calls has exponential latency</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>long tail latency distribution - why?</h2>
+                    <ul>
+                        <li>network congestion</li>
+                        <li>service maybe overloaded</li>
+                        <li>GC stop the world pauses</li>
+                        <li>topic is studied in academia and industry</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="network_congestion.jpg"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>network congestion</li>
+                            <li>service maybe overloaded</li>
+                            <li>for services using GC based platforms - GC stop the world pauses</li>
+                            <li>exact explanation - beyond this presentation - topic is studied in academia and industry</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Reactive Programming to the rescue - another buzzword?</h2>
+                    <ul>
+                        <li>promotes good patterns for distributed architectures</li>
+                        <li>graceful network call failure</li>
+                        <li>promotes stream processing</li>
+                        <li>scale to many concurrent users</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="reactive_programming.png"/>
+                    <p>Reactive Manifesto - http://www.reactivemanifesto.org</p>
+                    <aside class="notes">
+                        <ul>
+                            <li>promotes good patterns for distributed architectures, e.g. circuit breaker pattern</li>
+                            <li>graceful network call failure - fail fast, provide fallback response</li>
+                            <li>promotes stream processing: operates on streams of data with many useful operators (e.g. interleave)</li>
+                            <li>scale to many concurrent users</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Reactive Programming - libraries:</h2>
+                    <ul>
+                        <li>Play framework (Enumerators and Iteratees)</li>
+                        <li>Reactive Streams - http://www.reactive-streams.org</li>
+                        <li>Reactive Extensions - with many variants: RxJava, RxScala, Rx.js, many more... (http://reactivex.io/)</li>
+                        <li>Akka - actor model on the JVM</li>
+                        <li>Netflix Hystrix - monitoring and reactive patterns</li>
+                        <li>bacon.js for JavaScript</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>Play framework and Enumerators and Iteratees</li>
+                            <li>Reactive Extensions - with many variants: RxJava, RxScala, Rx.js, many more...</li>
+                            <li>Akka - actor model on the JVM</li>
+                            <li>Netflix Hystrix - monitoring and reactive patterns (e.g. circuit breaker, fallback)</li>
+                            <li>bacon.js for JavaScript</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe</h2>
+                    <p><blockquote>"The general idea is to decompose web pages into small re-usable chunks of functionality called pagelets and pipeline them through several execution stages
+                    inside web servers and browsers. This allows progressive rendering at the front-end and results in exceptional front-end performance."</blockquote></p>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe</h2>
+                    <img width="80%" height="80%" src="facebook_bigpipe.png">
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe - a pagelet</h2>
+                    <p>
+                        <q>"<strong>a pagelet</strong> - a small chunk or region of a web page that has a single topic or functionality."</q>
+                    </p>
+                    <ul>
+                        <li>each pagelet can invoke zero to more remote services</li>
+                        <li>once pagelet is ready, it will be flushed via Js</li>
+                        <li>stream-able part of html (div)</li>
+                        <li>encapsulated piece of logic</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>each pagelet can invoke zero to more remote services</li>
+                            <li>once pagelet is ready, it will be flushed to the browser via JavaScript</li>
+                            <li>stream-able part of html (div)</li>
+                            <li>encapsulated piece of logic - usually backend code + template, can be also CSS and JavaScript</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe - pagelet - a reusable component?</h2>
+                    <blockquote>"Managing complexity is the most important technical topic in software development" - Steve McConnell in Code Complete</blockquote>
+                    <img width=50%" height="50%" src="car_parts.jpg"/>
+                </section>
+
+                <section>
+                    <h2>Facebook's BigPipe - advantages</h2>
+                    <ul>
+                        <li>site speed - stream pagelets early</li>
+                        <li>reusable components - increased maintability</li>
+                        <li>ideal for social networks sites when content changes frequently</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img width="30%" height="30%" src="big_pipe.jpg">
+                    <aside class="notes">
+                        <ul>
+                            <li>site speed - stream pagelets early</li>
+                            <li>reusable components - increased maintability</li>
+                            <li>ideal for social networks sites when content changes frequently, this is still generic model that can be applied anywhere</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Gibraltar - pagelets decomposition</h2>
+                    <img width="50%" height="50%" src="modelpress_pagelets.png">
+                    <p>both visible and invisible pagelets</p>
+                </section>
+
+                <section>
+                    <h2>What about a bot?</h2>
+                    <ul>
+                        <li>will bot understand chunked with BigPipe (JavaScript)?</li>
+                        <li>we assumed common knowledge - NO</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="bot.jpg"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>At that time (March 2014) we didn't know, we assumed common knowledge - NO. Bot cannot understand JavaScript</li>
+                            <li>we could easily change the code to make any of these mode default</li>
+                            <li>Eventually we did a test and Google Bot can render our BigPipe version elegantly</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Need for three rendering modes:</h2>
+                    <ul>
+                        <ul>
+                            <li>serial</li>
+                            <li>chunked</li>
+                            <li>chunked with BigPipe</li>
+                        </ul>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>serial - request and response (http 1.0)</li>
+                            <li>chunked - streaming from top to bottom (http 1.1)</li>
+                            <li>BigPipe injecting pagelets via JavaScript into DOM</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Play 2.3.x framework - part 1</h2>
+                    <img height="50%" width="50%" src="play_framework.png"/>
+                    <ul>
+                        <li>Modern web framework</li>
+                        <li>supports FRP (Functional Reactive Programming)</li>
+                        <li>http 1.1 - chunked transfer encoding first class citizen</li>
+                        <li>increased developer productivity (CTRL + R) - page reload</li>
+                        <li>errors reported in a browser</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Play 2.3.x framework - part 2</h2>
+                    <img height="50%" width="50%" src="play_framework.png"/>
+                    <ul>
+                        <li>build for performance and scalability</li>
+                        <li>ability to support three rendering modes</li>
+                        <li>best for technical requirements we had</li>
+                        <li>easy to plug another template library - google closure templates (soy)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>But wait... have you forgotten AJAX?</h2>
+                    <img src="ajax_wash.png"/>
+                    <ul>
+                        <li>an option but slow</li>
+                        <li>browser fires multiple concurrent http requests</li>
+                        <li>http 2.0 may be a game changer</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project learnings - part 1:</h2>
+                    <ul>
+                        <li>Google Bot can crawl BigPipe version</li>
+                        <li>BigPipe mode not user friendly</li>
+                        <li>today's routers optimized for http 1.0</li>
+                        <li>not everything with graceful fallback - usually one critical call</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img width="50%" height="50%" src="bot_pipe.jpg"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>latest Google Bot is able to understand at least simple JavaScript, other bots unclear</li>
+                            <li>BigPipe - hard to do this right for users, pagelets flickering while they start reading</li>
+                            <li>today's routers optimized for http request and response (http 1.0) - magic citrix (NetScaler) setting - httpcompressionpush=1. It is not even doing early flush if badly configured.</li>
+                            <li>not everything with graceful fallback - usually one critical call</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project learnings - part 2:</h2>
+                    <ul>
+                        <li>once flushed response with http code 200 that's it</li>
+                        <li>Play is stable but... breaking changes appear</li>
+                        <li>Play Java not always idiomatic</li>
+                        <li>Play's enumerators and iteratees hard to comprehend</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="iteratees-diagram-med.png"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Impossible to return status code other than 200 once streaming, it is possible to inject JavaScript, which will redirect a user to error page</li>
+                            <li>Play is stable but... API breaking changes every two releases</li>
+                            <li>Play Java not always idiomatic, don't use any other version than Java 8, use Play Scala if you can</li>
+                            <li>Play's enumerators and iteratees hard to comprehend, RxJava and Observable may be better for Play Java, i.e. more idiomatic</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Gibraltar project learnings - part 3:</h2>
+                    <ul>
+                        <li>Sbt - play's (simple build tool) actually has steep learning curve</li>
+                        <li>need to monitor web service calls important</li>
+                        <li>intermediate level of functional programming needed</li>
+                        <li>async programming scalable but more difficult</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <img src="lambda.png"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Sbt - play's (simple build tool) actually has steep learning curve</li>
+                            <li>need to monitor web service calls important - problem may not be in the place where you thought - used Netflix Hystrix</li>
+                            <li>intermediate level of functional programming needed</li>
+                            <li>async programming scalable but more difficult</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Learning resources - part 1</h2>
+                    <ul>
+                        <li>Netflix Reactive Extensions - <a href="http://reactivex.io/">http://reactivex.io/</a></li>
+                    </ul>
+                    <img src="reactivex.png"/>
+                </section>
+
+                <section>
+                    <h2>Learning resources - part 2</h2>
+                    <ul>
+                        <li><a href="http://www.ustream.tv/recorded/42801129">http://www.ustream.tv/recorded/42801129</a></li>
+                    </ul>
+                    <img src="brikis.png"/>
+                    <ul>
+                        <li><a href="https://github.com/brikis98/ping-play">https://github.com/brikis98/ping-play</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Learning resources -  part 3</h2>
+                    <ul>
+                        <li>Coursea's Principles of Reactive Programming</li>
+                    </ul>
+                    <img src="coursea_reactive.png"/>
+                </section>
+
+                <section>
+                    <h2>Learning resources - part 4</h2>
+                    <ul>
+                        <li><a href="https://www.playframework.com/">https://www.playframework.com/</a></li>
+                    </ul>
+                    <img src="play_learning.png"/>
+                </section>
+
+                <section>
+                    <h2>Wrap up</h2>
+                    <ul>
+                        <li><a href="https://github.com/matiwinnetou/reactive-web">https://github.com/matiwinnetou/reactive-web</a></li>
+                    </ul>
+                    <img src="any_questions.jpg"/>
+                </section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+                history: true,
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+//				parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-4.jpg',
+//				parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/svg/reveal-svg-fragment.js', condition: function() { return !!document.querySelector( '[data-svg-fragment]' ); } }
+				]
+			});
+		</script>
+	</body>
+</html>
